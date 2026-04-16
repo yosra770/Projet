@@ -1,1 +1,1 @@
-hi life
+hi lifec nnoidncodnbdoicndmb magic_quotes_runtime
