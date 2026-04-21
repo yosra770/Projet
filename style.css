@@ -1,0 +1,44 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* HERO */
+.hero {
+    height: 90vh;
+    background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+}
+
+/* HERO TEXT */
+.hero h1 {
+    font-size: 60px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 20px;
+}
+
+/* NAVBAR */
+.navbar {
+    border-bottom: 1px solid #eee;
+}
+
+/* BUTTON */
+.btn-dark {
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+/* CARD */
+.card {
+    border: none;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
