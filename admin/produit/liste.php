@@ -1,24 +1,170 @@
-<?php
-require_once("../../config/db.php");
-require_once("../../includes/session.php");
+<style>
+    /* Style spécifique à la table des produits */
+    .product-section {
+        width: 82%;
+        margin-left:40px; /* Laisser de l'espace pour la sidebar */
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    }
 
-requireAdmin();
+    .table-custom {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px; /* Espace entre les lignes */
+    }
 
-$db = new \Connexion();
-$conn = $db->CNXbase();
+    .table-custom thead th {
+        font-family: 'Playfair Display', serif;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        color: #94a3b8;
+        border: none;
+        padding: 10px 20px;
+    }
 
-$produits = $conn->query("SELECT * FROM produits")->fetchAll();
-?>
+    .table-custom tbody tr {
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        transition: all 0.3s ease;
+    }
 
-<h2>Liste Produits (Admin)</h2>
+    .table-custom tbody tr:hover {
+        transform: scale(1.01);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
 
-<a href="ajouter.php">Ajouter Produit</a><br><br>
+    .table-custom td {
+        padding: 20px;
+        vertical-align: middle;
+        border: none;
+    }
 
-<?php foreach ($produits as $p): ?>
-    <p>
-        <?= $p['nom'] ?> - <?= $p['prix'] ?> TND
+    /* Coins arrondis pour les lignes */
+    .table-custom td:first-child { border-radius: 15px 0 0 15px; }
+    .table-custom td:last-child { border-radius: 0 15px 15px 0; }
 
-        <a href="../../Produits/modifier.php?id=<?= $p['id'] ?>">Modifier</a>
-        <a href="../../Produits/supprimer.php?id=<?= $p['id'] ?>">Supprimer</a>
-    </p>
-<?php endforeach; ?>
+    /* Image du produit */
+    .product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #f8f9fa;
+        border: 1px solid #eee;
+    }
+
+    /* Badges de prix */
+    .price-badge {
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 1.1rem;
+    }
+
+    /* Boutons d'actions */
+    .action-btn {
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        text-decoration: none;
+        margin-right: 5px;
+        transition: 0.3s;
+    }
+
+    .btn-edit { background: #eff6ff; color: #3b82f6; }
+    .btn-edit:hover { background: #3b82f6; color: #fff; }
+
+    .btn-delete { background: #fef2f2; color: #ef4444; }
+    .btn-delete:hover { background: #ef4444; color: #fff; }
+
+    .btn-add-product {
+        background: #1a1a1a;
+        color: #fff;
+        border-radius: 12px;
+        padding: 12px 25px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        transition: 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .btn-add-product:hover {
+        background: #d4af37;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+</style>
+<?php include("../../includes/header.php"); ?>
+
+ <link rel="stylesheet" href="/web2/projet/style.css">
+<div class="d-flex align-items-start">
+ <?php include("../sidebar.php"); ?>
+<div class="product-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="font-family: 'Playfair Display', serif; font-weight: 700;">Gestion des Produits</h2>
+        <a href="ajouter.php" class="btn-add-product">
+            <i class="fas fa-plus me-2"></i> Ajouter une Sneaker
+        </a>
+    </div>
+
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aperçu</th>
+                <th>Nom du Modèle</th>
+                <th>Prix</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-muted">#01</td>
+                <td>
+                    <img src="../../uploads/default.png" class="product-img" alt="Sneaker">
+                </td>
+                <td>
+                    <span class="fw-bold d-block">Sneaker Classic Gold</span>
+                    <small class="text-muted">Collection Maison NYA</small>
+                </td>
+                <td><span class="price-badge">25 TND</span></td>
+                <td class="text-end">
+                    <a href="#" class="action-btn btn-edit" title="Modifier">
+                        <i class="fas fa-pen-nib"></i>
+                    </a>
+                    <a href="#" class="action-btn btn-delete" title="Supprimer">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="text-muted">#02</td>
+                <td>
+                    <img src="../../uploads/default.png" class="product-img" alt="Sneaker">
+                </td>
+                <td>
+                    <span class="fw-bold d-block">Sneaker Urban White</span>
+                    <small class="text-muted">Collection Limited</small>
+                </td>
+                <td><span class="price-badge">40 TND</span></td>
+                <td class="text-end">
+                    <a href="#" class="action-btn btn-edit" title="Modifier">
+                        <i class="fas fa-pen-nib"></i>
+                    </a>
+                    <a href="#" class="action-btn btn-delete" title="Supprimer">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+<?php include("../../includes/footer.php"); ?>

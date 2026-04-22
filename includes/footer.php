@@ -1,62 +1,57 @@
 <footer class="footer">
-
+  <link rel="stylesheet" href="/web2/projet/style.css">
   <div class="container py-5">
-
     <div class="row g-4">
 
-      <!-- BRAND -->
       <div class="col-md-4">
-        <h2 class="footer-logo">👟 ShoesStore</h2>
+        <div class="footer-brand-container mb-3">
+          <img src="/web2/projet/images/logo.png" alt="Maison NYA" class="footer-img-logo">
+          <div class="footer-brand-text">
+            <span class="f-maison">MAISON</span>
+            <span class="f-nya">NYA</span>
+          </div>
+        </div>
         <p class="footer-text">
-          Premium sneakers store. Style, comfort and quality for everyday life.
+          L'art de la sneaker haut de gamme. Élégance, confort et distinction pour chaque pas.
         </p>
-
-        <div class="footer-social">
-          <a href="#">📸 Instagram</a>
-          <a href="#">📘 Facebook</a>
-          <a href="mailto:admincontact@gmail.com">✉ Email</a>
+        <div class="footer-social mt-4">
+          <a href="#"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+          <a href="#"><i class="fab fa-facebook"></i> FACEBOOK</a>
         </div>
       </div>
 
-      <!-- SHOP -->
-      <div class="col-md-2">
-        <h5>Shop</h5>
-        <a href="#">New Arrivals</a>
+      <div class="col-md-2 offset-md-1">
+        <h5>BOUTIQUE</h5>
+        <a href="#">Nouveautés</a>
         <a href="#">Best Sellers</a>
-        <a href="#">Men</a>
-        <a href="#">Women</a>
+        <a href="#">Hommes</a>
+        <a href="#">Femmes</a>
       </div>
 
-      <!-- SUPPORT -->
-      <div class="col-md-3">
-        <h5>Support</h5>
-        <a href="#">Contact Us</a>
+      <div class="col-md-2">
+        <h5>AIDE</h5>
+        <a href="#">Contact</a>
         <a href="#">FAQ</a>
-        <a href="#">Delivery</a>
-        <a href="#">Returns</a>
+        <a href="#">Livraison</a>
+        <a href="#">Retours</a>
       </div>
 
-      <!-- LEGAL -->
       <div class="col-md-3">
-        <h5>Legal</h5>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms & Conditions</a>
-        <a href="#">Refund Policy</a>
-
-        <p class="footer-text mt-3">
-          📧 admincontact@gmail.com <br>
-          📞 +216 54 132 164
+        <h5>MAISON</h5>
+        <a href="#">Mentions Légales</a>
+        <a href="#">Confidentialité</a>
+        <p class="footer-text mt-4">
+          <span class="d-block">✉ admincontact@gmail.com</span>
+          <span class="d-block">📞 +216 54 132 164</span>
         </p>
       </div>
 
     </div>
 
-    <hr>
+    <hr class="footer-hr">
 
     <div class="footer-bottom">
-      <p>© 2026 ShoesStore - All rights reserved</p>
+      <p>© 2026 MAISON NYA — EST. TUNISIA</p>
     </div>
-
   </div>
-
 </footer>

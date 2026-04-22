@@ -1,7 +1,6 @@
 <?php include("includes/header.php"); ?>
 
 <!-- HERO -->
-<!-- HERO -->
 <section class="hero-slider">
 
   <div class="slide active" style="background-image:url('https://www.doitinparis.com/files/eshop/collections/343//thumbs-1760x525/mode-sneakers-fevrier-2025.jpg')">

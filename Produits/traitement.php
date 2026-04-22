@@ -1,52 +1,74 @@
 <?php
-require_once("../config/db.php");
-require_once("../includes/session.php");
+class produit
+{
+    // 🔹 Attributs
+    public $nom;
+    public $prix;
+    public $description;
+    public $image;
 
-requireAdmin();
+    // 🔹 Ajouter produit
+    function insertProduit()
+    {
+        require_once('../config/db.php');
+        $cnx = new \Connexion();
+        $pdo = $cnx->CNXbase();
 
-$db = new \Connexion();
-$conn = $db->CNXbase();
+        $req = "INSERT INTO produits (nom, description, prix, image) 
+                VALUES ('$this->nom', '$this->description', '$this->prix', '$this->image')";
 
+        $pdo->exec($req) or print_r($pdo->errorInfo());
+    }
 
-// 🔹 AJOUTER PRODUIT
-if (isset($_POST['action']) && $_POST['action'] == "ajouter") {
+    // 🔹 Lister produits
+    function listProduits()
+    {
+        require_once('../config/db.php');
+        $cnx = new \Connexion();
+        $pdo = $cnx->CNXbase();
 
-    $nom = $_POST['nom'];
-    $prix = $_POST['prix'];
-    $description = $_POST['description'];
+        $req = "SELECT * FROM produits";
+        $res = $pdo->query($req) or print_r($pdo->errorInfo());
 
-    // IMAGE
-    $image = $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $image);
+        return $res;
+    }
 
-    $stmt = $conn->prepare("INSERT INTO produits (nom, description, prix, image) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$nom, $description, $prix, $image]);
+    // 🔹 Récupérer un produit
+    function getProduit($id)
+    {
+        require_once('../config/db.php');
+        $cnx = new \Connexion();
+        $pdo = $cnx->CNXbase();
 
-    header("Location: liste.php");
-}
+        $req = "SELECT * FROM produits WHERE id='$id'";
+        $res = $pdo->query($req) or print_r($pdo->errorInfo());
 
+        return $res;
+    }
 
-// 🔹 MODIFIER PRODUIT
-if (isset($_POST['action']) && $_POST['action'] == "modifier") {
+    // 🔹 Modifier produit
+    function modifierProduit($id)
+    {
+        require_once('../config/db.php');
+        $cnx = new \Connexion();
+        $pdo = $cnx->CNXbase();
 
-    $id = $_POST['id'];
-    $nom = $_POST['nom'];
-    $prix = $_POST['prix'];
-    $description = $_POST['description'];
+        $req = "UPDATE produits 
+                SET nom='$this->nom', description='$this->description', prix='$this->prix' 
+                WHERE id='$id'";
 
-    $stmt = $conn->prepare("UPDATE produits SET nom=?, description=?, prix=? WHERE id=?");
-    $stmt->execute([$nom, $description, $prix, $id]);
+        $pdo->exec($req) or print_r($pdo->errorInfo());
+    }
 
-    header("Location: liste.php");
-}
+    // 🔹 Supprimer produit
+    function supprimerProduit($id)
+    {
+        require_once('../config/db.php');
+        $cnx = new \Connexion();
+        $pdo = $cnx->CNXbase();
 
-
-// 🔹 SUPPRIMER PRODUIT
-if (isset($_GET['id'])) {
-
-    $stmt = $conn->prepare("DELETE FROM produits WHERE id=?");
-    $stmt->execute([$_GET['id']]);
-
-    header("Location: liste.php");
+        $req = "DELETE FROM produits WHERE id='$id'";
+        $pdo->exec($req);
+    }
 }
 ?>

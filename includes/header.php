@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ShoesStore</title>
+  <title>Maison NYA</title>
 
   <!-- BOOTSTRAP CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- TON CSS -->
-  <link rel="stylesheet" href="/web2/projet/style.css?v=999">
+  <link rel="stylesheet" href="/web2/projet/style.css">
 
   <!-- BOOTSTRAP JS (IMPORTANT !!!) -->
 </head>
@@ -21,9 +21,18 @@
   <div class="container">
 
     <!-- LOGO -->
-    <a class="navbar-brand fw-bold" href="/web2/projet/index.php">
-      👟 ShoesStore
-    </a>
+    <a class="navbar-brand d-flex align-items-center" href="/web2/projet/index.php" style="text-decoration: none;">
+   <img src="/web2/projet/images/logo.png" 
+        alt="Maison NYA Logo" 
+        class="logo-minimalist">
+   
+   <div class="separator"></div>
+
+   <div class="brand-signature">
+      <span class="m-text">MAISON</span>
+      <span class="n-text">NYA</span>
+   </div>
+</a>
 <!-- BOOTSTRAP JS (IMPORTANT) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- HAMBURGER -->

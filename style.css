@@ -32,6 +32,57 @@ body {
 .nav-link:hover {
   color: #000 !important;
 }
+/* ======================
+   logo header
+====================== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Prata&display=swap');
+
+/* 1. L'image en mode "Sceau" */
+.logo-minimalist {
+    height: 35px; /* Plus petite, pour rester discrète et précieuse */
+    width: auto;
+    opacity: 0.9;
+}
+
+/* 2. Le séparateur (La touche de luxe en plus) */
+.separator {
+    height: 30px;
+    width: 1px;
+    background-color: #d4af37; /* Couleur Or doré discret */
+    margin: 0 15px;
+}
+
+/* 3. La Signature (Mise en valeur du nom) */
+.brand-signature {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.m-text {
+    font-family: 'Cinzel', serif; /* Police type empire, très chic */
+    font-size: 11px;
+    letter-spacing: 8px; /* Espacement extrême pour le prestige */
+    color: #888; /* Gris anthracite pour laisser briller NYA */
+    font-weight: 400;
+    line-height: 1;
+}
+
+.n-text {
+    font-family: 'Prata', serif; /* Police élégante et volumineuse */
+    font-size: 28px; /* Grand pour être bien vu */
+    letter-spacing: 3px;
+    font-weight: 400;
+    color: #000;
+    line-height: 0.9;
+    margin-top: 2px;
+}
+
+/* Ajustement Navbar */
+.navbar {
+    padding: 15px 0 !important;
+    background-color: #fff !important;
+}
 
 /* ======================
    HERO CREATIVE (DIFFUSE IMAGE)
@@ -348,83 +399,111 @@ h2 {
 /* ======================
    FOOTER PROFESSIONAL
 ====================== */
+/* --- FOOTER MAISON NYA --- */
 .footer {
-  background: #0b0b0f;
+  background: #050505; /* Noir plus profond, plus chic */
   color: #fff;
-  margin-top: 80px;
+  margin-top: 100px;
+  border-top: 1px solid #1a1a1a;
+  padding-top: 40px;
 }
 
-/* LOGO */
-.footer-logo {
-  font-weight: 900;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+/* Style du Logo dans le Footer */
+.footer-brand-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-/* TEXT */
-.footer-text {
-  color: #b5b5b5;
-  font-size: 14px;
-  line-height: 1.7;
+.footer-img-logo {
+  height: 45px;
+  width: auto;
+  filter: brightness(0) invert(1); /* Rend le logo blanc pour le fond noir */
+  opacity: 0.8;
 }
 
-/* TITLES */
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.f-maison {
+  font-family: 'Cinzel', serif;
+  font-size: 23px;
+  letter-spacing: 5px;
+  color: #888;
+}
+
+.f-nya {
+  font-family: 'Prata', serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  color: #fff;
+}
+
+/* Titres des colonnes */
 .footer h5 {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
   font-weight: 700;
-  margin-bottom: 15px;
-  color: #fff;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+  color: #d4af37; /* Touche dorée discrète */
 }
 
-/* LINKS */
+/* Liens du footer */
 .footer a {
   display: block;
-  color: #999;
+  color: #777;
   text-decoration: none;
-  margin-bottom: 8px;
-  font-size: 14px;
-  transition: 0.3s;
+  margin-bottom: 12px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
 }
 
 .footer a:hover {
   color: #fff;
-  transform: translateX(5px);
+  padding-left: 8px; /* Effet de décalage élégant */
 }
 
-/* SOCIAL */
+/* Texte et infos */
+.footer-text {
+  color: #555;
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 280px;
+}
+
+/* Réseaux Sociaux */
 .footer-social a {
-  margin-bottom: 6px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  display: inline-block;
+  margin-right: 20px;
+  border-bottom: 1px solid transparent;
 }
 
-/* LINE */
-.footer hr {
-  border-color: #222;
-  margin: 30px 0 15px;
+.footer-social a:hover {
+  border-bottom: 1px solid #fff;
+  padding-left: 0;
 }
 
-/* BOTTOM */
+/* Ligne de séparation */
+.footer-hr {
+  border-color: #1a1a1a;
+  margin: 50px 0 20px;
+}
+
+/* Copyright */
 .footer-bottom {
   text-align: center;
-  color: #666;
-  font-size: 13px;
-}
-/* SEARCH BAR */
-.search-bar {
-  border-radius: 30px;
-  padding: 8px 15px;
-  width: 220px;
-}
-
-/* ICONS */
-.icon-btn {
-  font-size: 20px;
-  color: #111;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.icon-btn:hover {
-  color: #4f46e5;
-  transform: scale(1.1);
+  color: #333;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
 }
 
 /* DROPDOWN CLEAN */
@@ -462,3 +541,142 @@ h2 {
     font-size: 40px;
   }
 }
+
+/* ======================
+   DASHBORD ADMIN
+====================== */
+:root {
+            --sidebar-bg: #ffffff;
+            --main-bg: #f8f9fa;
+            --accent-gold: #d4af37;
+            --text-dark: #1a1a1a;
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Moderne */
+        .sidebar {
+            width: 250px;
+    min-height: 100vh; /* Elle prend au moins toute la hauteur de l'écran */
+    background: var(--sidebar-bg);
+    border-right: 1px solid #eee;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+        }
+
+        .sidebar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            color: #64748b;
+            padding: 12px 15px;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: #f1f5f9;
+            color: var(--text-dark);
+            transform: translateX(5px);
+        }
+
+        .sidebar a.logout {
+            margin-top: 50px;
+            color: #ef4444;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        /* Cards Style "Maison" */
+        .card-custom {
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .bg-gold-light { background: #fef9e7; color: var(--accent-gold); }
+        .bg-blue-light { background: #eff6ff; color: #3b82f6; }
+        .bg-purple-light { background: #faf5ff; color: #a855f7; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Boutons */
+        .btn-nya {
+            background: var(--text-dark);
+            color: white;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-nya:hover {
+            background: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            color: white;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }

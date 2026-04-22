@@ -1,17 +1,14 @@
 <?php
-include("../config/db.php");
 include("../includes/session.php");
+require_once("../Produits/traitement.php");
 
 requireAdmin();
 
-$db = new \Connexion();
-$conn = $db->CNXbase();
-
 $id = $_GET['id'];
 
-$stmt = $conn->prepare("SELECT * FROM produits WHERE id=?");
-$stmt->execute([$id]);
-$produit = $stmt->fetch();
+$p = new produit();
+$res = $p->getProduit($id);
+$produit = $res->fetch();
 ?>
 
 <h2>Modifier produit</h2>
