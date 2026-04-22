@@ -1,5 +1,4 @@
 <?php include("includes/header.php"); ?>
-
 <!-- HERO -->
 <section class="hero-slider">
 
@@ -85,7 +84,7 @@ setInterval(() => {
 <?php
 require_once(__DIR__ . "/config/db.php");
 
-$connexion = new Connexion();
+$connexion = new \Connexion();
 $conn = $connexion->CNXbase();
 
 $result = $conn->query("SELECT * FROM produits LIMIT 6");
