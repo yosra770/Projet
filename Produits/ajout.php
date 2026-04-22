@@ -1,15 +1,15 @@
 <?php include("../includes/header.php"); ?>
 
 <div class="container mt-5">
-<h2>Ajouter produit</h2>
+<h2 class="text-center">Ajouter Produit</h2>
 
-<form action="traitement_ajout.php" method="POST" enctype="multipart/form-data">
+<form action="traitement_ajout.php" method="POST" enctype="multipart/form-data" class="card p-4 shadow">
 
-<input type="text" name="nom" placeholder="Nom" class="form-control mb-2">
+<input type="text" name="nom" class="form-control mb-2" placeholder="Nom">
 
 <textarea name="description" class="form-control mb-2"></textarea>
 
-<input type="number" name="prix" placeholder="Prix" class="form-control mb-2">
+<input type="number" name="prix" class="form-control mb-2" placeholder="Prix">
 
 <input type="file" name="image" class="form-control mb-2">
 

@@ -1,8 +1,7 @@
 <?php
 require_once("../config/db.php");
 
-$connexion = new Connexion();
-$conn = $connexion->CNXbase();
+$conn = (new Connexion())->CNXbase();
 
 $nom = $_POST['nom'];
 $desc = $_POST['description'];
@@ -13,10 +12,8 @@ $tmp = $_FILES['image']['tmp_name'];
 
 move_uploaded_file($tmp, "../uploads/".$image);
 
-$sql = "INSERT INTO produits (nom, description, prix, image)
-        VALUES (:nom, :description, :prix, :image)";
-
-$stmt = $conn->prepare($sql);
+$stmt = $conn->prepare("INSERT INTO produits (nom, description, prix, image)
+VALUES (:nom, :description, :prix, :image)");
 
 $stmt->execute([
     'nom' => $nom,
