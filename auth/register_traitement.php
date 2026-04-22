@@ -1,5 +1,8 @@
 <?php
-include("../config/db.php");
+require_once("../config/db.php");
+
+$connexion = new Connexion();
+$conn = $connexion->CNXbase();
 
 $nom = $_POST['nom'];
 $prenom = $_POST['prenom'];
@@ -14,11 +17,19 @@ $tmp = $_FILES['photo']['tmp_name'];
 move_uploaded_file($tmp, "../uploads/".$photo);
 
 $sql = "INSERT INTO users (nom, prenom, email, password, sexe, date_naissance, photo)
-        VALUES ('$nom','$prenom','$email','$password','$sexe','$date','$photo')";
+        VALUES (:nom, :prenom, :email, :password, :sexe, :date, :photo)";
 
-if($conn->query($sql)){
-    header("Location: login.php");
-} else {
-    echo "Erreur";
-}
+$stmt = $conn->prepare($sql);
+
+$stmt->execute([
+    'nom' => $nom,
+    'prenom' => $prenom,
+    'email' => $email,
+    'password' => $password,
+    'sexe' => $sexe,
+    'date' => $date,
+    'photo' => $photo
+]);
+
+header("Location: login.php");
 ?>

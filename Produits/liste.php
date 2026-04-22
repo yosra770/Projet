@@ -1,15 +1,20 @@
 <?php
-include("../config/db.php");
+require_once("../config/db.php");
 include("../includes/header.php");
 
-$result = $conn->query("SELECT * FROM produits");
+$connexion = new Connexion();
+$conn = $connexion->CNXbase();
+
+$sql = "SELECT * FROM produits";
+$stmt = $conn->query($sql);
+$produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="container mt-5">
 <h2 class="mb-4">Nos Chaussures</h2>
 
 <div class="row">
-<?php while($p = $result->fetch_assoc()){ ?>
+<?php foreach($produits as $p){ ?>
     <div class="col-md-3">
         <div class="card shadow-sm mb-4">
 
@@ -19,7 +24,7 @@ $result = $conn->query("SELECT * FROM produits");
                 <h5><?php echo $p['nom']; ?></h5>
                 <p class="text-muted"><?php echo $p['prix']; ?> DT</p>
 
-                <a href="#" class="btn btn-dark btn-sm">Voir</a>
+                <a href="detail.php?id=<?php echo $p['id']; ?>" class="btn btn-dark btn-sm">Voir</a>
             </div>
 
         </div>
