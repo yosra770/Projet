@@ -1,6 +1,4 @@
 <?php include("includes/header.php"); ?>
-
-<!-- HERO -->
 <!-- HERO -->
 <section class="hero-slider">
 
