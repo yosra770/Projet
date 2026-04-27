@@ -5,16 +5,16 @@
 
  <div class="sidebar">
         <div class="sidebar-brand">
-            NYA <span style="font-size: 0.8rem; display: block; font-weight: 400; letter-spacing: 5px;">ADMIN</span>
+            NAYA <span style="font-size: 0.8rem; display: block; font-weight: 400; letter-spacing: 5px;">ADMIN</span>
         </div>
 
         <nav>
             <a href="/web2/projet/admin/dashboard.php" class="active"><i class="fas fa-th-large"></i> Dashboard</a>
             <a href="/web2/projet/admin/produit/liste.php"><i class="fas fa-shoe-prints"></i> Sneakers</a>
-            <a href="#"><i class="fas fa-receipt"></i> Commandes</a>
-            <a href="#"><i class="fas fa-user-friends"></i> Clients</a>
-            <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
+            <a href="/web2/projet/admin/commandes/commande.php"><i class="fas fa-receipt"></i> Commandes</a>
+            <a href="/web2/projet/admin/user/liste.php"><i class="fas fa-user-friends"></i> Clients</a>
             
-            <a href="#" class="logout"><i class="fas fa-power-off"></i> Déconnexion</a>
+            
+            <a href="/web2/projet/auth/logout.phpgi" class="logout"><i class="fas fa-power-off"></i> Déconnexion</a>
         </nav>
     </div>

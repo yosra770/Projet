@@ -8,7 +8,7 @@
           <img src="/web2/projet/images/logo.png" alt="Maison NYA" class="footer-img-logo">
           <div class="footer-brand-text">
             <span class="f-maison">MAISON</span>
-            <span class="f-nya">NYA</span>
+            <span class="f-nya">NAYA</span>
           </div>
         </div>
         <p class="footer-text">
@@ -51,7 +51,7 @@
     <hr class="footer-hr">
 
     <div class="footer-bottom">
-      <p>© 2026 MAISON NYA — EST. TUNISIA</p>
+      <p>© 2026 MAISON NAYA — EST. TUNISIA</p>
     </div>
   </div>
 </footer>

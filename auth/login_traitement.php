@@ -35,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: login.php");
         exit();
     }
-
+    $_SESSION['utilisateur'] = $_SESSION['user'];
+    
     $_SESSION['user'] = [
         'id' => $user['id'],
         'nom' => $user['nom'],

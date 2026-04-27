@@ -1,3 +1,10 @@
+<?php
+require_once(__DIR__ . "/traitement.php");
+
+$p = new produit();
+$produits = $p->listProduits();
+?>
+
 <style>
     /* Style spécifique à la table des produits */
     .product-section {
@@ -101,6 +108,13 @@
     }
 </style>
 <?php include("../../includes/header.php"); ?>
+<?php
+require_once("../../includes/session.php");
+requireAdmin();
+?>
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
  <link rel="stylesheet" href="/web2/projet/style.css">
 <div class="d-flex align-items-start">
@@ -124,46 +138,48 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-muted">#01</td>
-                <td>
-                    <img src="../../uploads/default.png" class="product-img" alt="Sneaker">
-                </td>
-                <td>
-                    <span class="fw-bold d-block">Sneaker Classic Gold</span>
-                    <small class="text-muted">Collection Maison NYA</small>
-                </td>
-                <td><span class="price-badge">25 TND</span></td>
-                <td class="text-end">
-                    <a href="#" class="action-btn btn-edit" title="Modifier">
-                        <i class="fas fa-pen-nib"></i>
-                    </a>
-                    <a href="#" class="action-btn btn-delete" title="Supprimer">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-            </tr>
 
-            <tr>
-                <td class="text-muted">#02</td>
-                <td>
-                    <img src="../../uploads/default.png" class="product-img" alt="Sneaker">
-                </td>
-                <td>
-                    <span class="fw-bold d-block">Sneaker Urban White</span>
-                    <small class="text-muted">Collection Limited</small>
-                </td>
-                <td><span class="price-badge">40 TND</span></td>
-                <td class="text-end">
-                    <a href="#" class="action-btn btn-edit" title="Modifier">
-                        <i class="fas fa-pen-nib"></i>
-                    </a>
-                    <a href="#" class="action-btn btn-delete" title="Supprimer">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
+<?php foreach ($produits as $prod): ?>
+
+<tr>
+    <td class="text-muted">#<?= $prod['id'] ?></td>
+
+    <td>
+        <img src="../../uploads/<?= !empty($prod['image']) ? $prod['image'] : 'default.png' ?>" class="product-img">
+    </td>
+
+    <td>
+        <span class="fw-bold d-block"><?= $prod['nom'] ?></span>
+        <small class="text-muted"><?= $prod['description'] ?></small>
+    </td>
+
+    <td>
+        <span class="price-badge"><?= $prod['prix'] ?> TND</span>
+    </td>
+
+   <td class="text-end">
+
+    <!-- MODIFIER -->
+    <a href="modifier.php?id=<?= $prod['id'] ?>" 
+       class="action-btn btn-edit"
+       title="Modifier">
+        <i class="fas fa-pen-nib"></i>
+    </a>
+
+    <!-- SUPPRIMER -->
+    <a href="supprimer.php?id=<?= $prod['id'] ?>" 
+       class="action-btn btn-delete"
+       title="Supprimer"
+       onclick="return confirm('Supprimer ce produit ?');">
+        <i class="fas fa-trash-alt"></i>
+    </a>
+
+</td>
+</tr>
+
+<?php endforeach; ?>
+
+</tbody>
     </table>
 </div>
 </div>

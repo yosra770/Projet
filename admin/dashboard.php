@@ -1,5 +1,9 @@
 <?php include("../includes/header.php"); ?>
-<?php include("sidebar.php"); ?>
+<?php
+require_once("../includes/session.php");
+requireAdmin();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,8 +19,8 @@
 </head>
 <body>
 
-   
-
+   <div class="d-flex align-items-start">
+<?php include("sidebar.php"); ?>
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <div>
@@ -25,7 +29,9 @@
             </div>
             <div class="d-flex align-items-center">
                 <div class="me-3 text-end">
-                    <small class="d-block text-muted">22 Avril 2026</small>
+                  <small class="d-block text-muted">
+    <?= date('d F Y'); ?>
+</small>
                     <strong>Tableau de bord</strong>
                 </div>
                 <img src="https://ui-avatars.com/api/?name=NY&background=d4af37&color=fff" class="rounded-circle" width="45" alt="Profile">
@@ -81,7 +87,7 @@
             </div>
         </div>
     </div>
-
+   </div>
 </body>
 </html>
 <?php include("../includes/footer.php"); ?>

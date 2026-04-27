@@ -1,10 +1,10 @@
 <?php
-require_once("../../config/db.php");
+require_once("traitement_user.php");
 
-$db = new \Connexion();
-$conn = $db->CNXbase();
+$userObj = new User();
 
-$conn->prepare("DELETE FROM utilisateur WHERE id=?")->execute([$_GET['id']]);
+$id = $_GET['id'];
+$userObj->deleteUser($id);
 
-header("Location: ../produits/liste.php");
+header("Location: liste.php");
 ?>

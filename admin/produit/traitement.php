@@ -10,7 +10,7 @@ class produit
     // 🔹 Ajouter produit
     function insertProduit()
     {
-        require_once('../config/db.php');
+        require_once('../../config/db.php');
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
@@ -23,7 +23,7 @@ class produit
     // 🔹 Lister produits
     function listProduits()
     {
-        require_once('../config/db.php');
+        require_once('../../config/db.php');
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
@@ -36,7 +36,7 @@ class produit
     // 🔹 Récupérer un produit
     function getProduit($id)
     {
-        require_once('../config/db.php');
+        require_once('../../config/db.php');
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
@@ -49,7 +49,7 @@ class produit
     // 🔹 Modifier produit
     function modifierProduit($id)
     {
-        require_once('../config/db.php');
+        require_once('../../config/db.php');
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
@@ -63,7 +63,7 @@ class produit
     // 🔹 Supprimer produit
     function supprimerProduit($id)
     {
-        require_once('../config/db.php');
+        require_once('../../config/db.php');
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 

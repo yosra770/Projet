@@ -83,6 +83,13 @@ body {
     padding: 15px 0 !important;
     background-color: #fff !important;
 }
+.search-bar {
+    background: transparent !important; /* Enlève le fond noir */
+    padding: 0 !important;              /* Enlève le gros espacement */
+    box-shadow: none !important;        /* Enlève l'ombre */
+    border-radius: 0 !important;        /* Enlève l'arrondi du conteneur */
+    width: auto !important;             /* Empêche de prendre trop de place */
+}
 
 /* ======================
    HERO CREATIVE (DIFFUSE IMAGE)

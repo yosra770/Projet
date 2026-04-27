@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Maison NYA</title>
+  <title>Maison NAYA</title>
 
   <!-- BOOTSTRAP CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,7 +34,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
    <div class="brand-signature">
       <span class="m-text">MAISON</span>
-      <span class="n-text">NYA</span>
+      <span class="n-text">NAYA</span>
    </div>
 </a>
 <!-- BOOTSTRAP JS (IMPORTANT) -->
@@ -100,7 +100,7 @@ if (session_status() === PHP_SESSION_NONE) {
       </ul>
 
       <!-- SEARCH -->
-      <form class="d-flex me-3">
+      <form class="d-flex me-3 search-bar">
         <input class="form-control" type="search" placeholder="Search sneakers...">
       </form>
 
@@ -126,14 +126,24 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <?php } else { ?>
 
-          <!-- LOGGED -->
-          <a href="/web2/projet/user/profile.php" class="btn btn-dark btn-sm">
-            Profile
-          </a>
+         <!-- LOGGED -->
 
-          <a href="/web2/projet/auth/logout.php" class="btn btn-outline-dark btn-sm">
-            Logout
-          </a>
+<?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') { ?>
+
+  <!-- ADMIN BUTTON -->
+  <a href="/web2/projet/admin/dashboard.php" class="btn btn-warning btn-sm">
+    Dashboard
+  </a>
+
+<?php } ?>
+
+<a href="/web2/projet/user/profile.php" class="btn btn-dark btn-sm">
+  Profile
+</a>
+
+<a href="/web2/projet/auth/logout.php" class="btn btn-outline-dark btn-sm">
+  Logout
+</a>
 
         <?php } ?>
 

@@ -1,9 +1,12 @@
 <?php
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 function requireLogin()
 {
-    if (!isset($_SESSION['utilisateur'])) {
+    if (!isset($_SESSION['user'])) {
         header("Location: ../auth/login.php");
         exit();
     }
@@ -11,7 +14,7 @@ function requireLogin()
 
 function requireAdmin()
 {
-    if (!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] != 'admin') {
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
         header("Location: ../auth/login.php");
         exit();
     }
