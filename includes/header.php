@@ -3,21 +3,26 @@
 <head>
   <title>Maison NYA</title>
 
-  <!-- BOOTSTRAP CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- TON CSS -->
   <link rel="stylesheet" href="/web2/projet/style.css">
-
-  <!-- BOOTSTRAP JS (IMPORTANT !!!) -->
 </head>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
 
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+/* 🔥 FIX IMPORTANT : panier count global */
+$cartCount = 0;
+
+if (!empty($_SESSION['panier'])) {
+    foreach ($_SESSION['panier'] as $item) {
+        $cartCount += $item['qty'] ?? 1;
+    }
 }
 ?>
 
@@ -26,34 +31,26 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <!-- LOGO -->
     <a class="navbar-brand d-flex align-items-center" href="/web2/projet/index.php" style="text-decoration: none;">
-   <img src="/web2/projet/images/logo.png" 
-        alt="Maison NYA Logo" 
-        class="logo-minimalist">
-   
-   <div class="separator"></div>
+      <img src="/web2/projet/images/logo.png" alt="Maison NYA Logo" class="logo-minimalist">
 
-   <div class="brand-signature">
-      <span class="m-text">MAISON</span>
-      <span class="n-text">NYA</span>
-   </div>
-</a>
-<!-- BOOTSTRAP JS (IMPORTANT) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <div class="separator"></div>
+
+      <div class="brand-signature">
+        <span class="m-text">MAISON</span>
+        <span class="n-text">NYA</span>
+      </div>
+    </a>
+
     <!-- HAMBURGER -->
     <button class="navbar-toggler" type="button"
       data-bs-toggle="collapse"
-      data-bs-target="#menu"
-      aria-controls="menu"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-
+      data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- MENU -->
     <div class="collapse navbar-collapse" id="menu">
 
-      <!-- LEFT MENU -->
       <ul class="navbar-nav me-auto">
 
         <li class="nav-item">
@@ -62,9 +59,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- MEN -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-            Men
-          </a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Men</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/web2/projet/produits/liste.php?cat=men&style=running">Running</a></li>
             <li><a class="dropdown-item" href="/web2/projet/produits/liste.php?cat=men&style=basketball">Basketball</a></li>
@@ -75,9 +70,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- WOMEN -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-            Women
-          </a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Women</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/web2/projet/produits/liste.php?cat=women&style=running">Running</a></li>
             <li><a class="dropdown-item" href="/web2/projet/produits/liste.php?cat=women&style=fitness">Fitness</a></li>
@@ -87,9 +80,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- KIDS -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-            Kids
-          </a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Kids</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/web2/projet/produits/liste.php?cat=kids&style=running">Running</a></li>
             <li><a class="dropdown-item" href="/web2/projet/produits/liste.php?cat=kids&style=sport">Sport</a></li>
@@ -108,32 +99,30 @@ if (session_status() === PHP_SESSION_NONE) {
       <div class="d-flex gap-3 align-items-center">
 
         <!-- FAVORIS -->
-        <a href="#" class="fs-5 text-dark" title="Favorites">❤️</a>
+        <a href="/web2/projet/favoris/liste.php" class="fs-5 text-dark">❤️</a>
 
         <!-- PANIER -->
-        <a href="#" class="fs-5 text-dark" title="Cart">🛒</a>
+        <a href="/web2/projet/panier/afficher.php" class="cart-icon" style="position:relative; font-size:22px; text-decoration:none;">
+
+          🛒
+
+          <?php if ($cartCount > 0): ?>
+            <span class="cart-badge">
+              <?= $cartCount ?>
+            </span>
+          <?php endif; ?>
+
+        </a>
 
         <?php if(!isset($_SESSION['user'])) { ?>
 
-          <!-- NOT LOGGED -->
-          <a href="/web2/projet/auth/login.php" class="btn btn-outline-dark btn-sm">
-            Login
-          </a>
-
-          <a href="/web2/projet/auth/register_form.php" class="btn btn-dark btn-sm">
-            Sign up
-          </a>
+          <a href="/web2/projet/auth/login.php" class="btn btn-outline-dark btn-sm">Login</a>
+          <a href="/web2/projet/auth/register_form.php" class="btn btn-dark btn-sm">Sign up</a>
 
         <?php } else { ?>
 
-          <!-- LOGGED -->
-          <a href="/web2/projet/user/profile.php" class="btn btn-dark btn-sm">
-            Profile
-          </a>
-
-          <a href="/web2/projet/auth/logout.php" class="btn btn-outline-dark btn-sm">
-            Logout
-          </a>
+          <a href="/web2/projet/user/profile.php" class="btn btn-dark btn-sm">Profile</a>
+          <a href="/web2/projet/auth/logout.php" class="btn btn-outline-dark btn-sm">Logout</a>
 
         <?php } ?>
 
