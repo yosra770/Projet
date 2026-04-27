@@ -1,5 +1,4 @@
 <footer class="footer">
-  <link rel="stylesheet" href="/web2/projet/style.css">
   <div class="container py-5">
     <div class="row g-4">
 
