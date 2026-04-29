@@ -3,12 +3,14 @@
 require_once("../../includes/session.php");
 require_once(__DIR__ . "/commande_traitement.php");
 requireAdmin();
+
 $c = new \Commande();
 $commandes = $c->listCommandes();
+
 ?>
 
 <style>
-/* tu peux réutiliser ton CSS produit */
+
 .product-section {
     width: 82%;
     margin-left:40px;
@@ -42,11 +44,18 @@ $commandes = $c->listCommandes();
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 12px;
+    text-transform: capitalize;
 }
 
-.pending { background: orange; color: white; }
-.validated { background: green; color: white; }
-.cancelled { background: red; color: white; }
+.en-attente { background: orange; color: white; }
+.validée { background: green; color: white; }
+.annulée { background: red; color: white; }
+
+.total {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
 </style>
 
 <?php include("../../includes/header.php"); ?>
@@ -65,6 +74,7 @@ $commandes = $c->listCommandes();
                 <th>ID</th>
                 <th>Client</th>
                 <th>Date</th>
+                <th>Total</th>
                 <th>Status</th>
                 <th>Détails</th>
             </tr>
@@ -81,20 +91,21 @@ $commandes = $c->listCommandes();
                 <?= $cmd['nom'] ?> <?= $cmd['prenom'] ?>
             </td>
 
-            <td>
-                <?= $cmd['date_commande'] ?>
+            <td><?= $cmd['date_commande'] ?></td>
+
+            <td class="total">
+                <?= $cmd['total'] ?> TND
             </td>
 
             <td>
-                <span class="status <?= $cmd['status'] ?>">
+                <span class="status <?= str_replace(' ', '-', $cmd['status']) ?>">
                     <?= $cmd['status'] ?>
                 </span>
             </td>
 
             <td>
-                <!-- bouton voir détails -->
-                <button class="btn btn-dark btn-sm" 
-                        data-bs-toggle="collapse" 
+                <button class="btn btn-dark btn-sm"
+                        data-bs-toggle="collapse"
                         data-bs-target="#d<?= $cmd['id'] ?>">
                     Voir
                 </button>
@@ -103,7 +114,7 @@ $commandes = $c->listCommandes();
 
         <!-- DETAILS -->
         <tr class="collapse" id="d<?= $cmd['id'] ?>">
-            <td colspan="5">
+            <td colspan="6">
 
                 <table class="table table-bordered">
 
@@ -111,6 +122,7 @@ $commandes = $c->listCommandes();
                         <th>Produit</th>
                         <th>Quantité</th>
                         <th>Prix</th>
+                        <th>Subtotal</th>
                     </tr>
 
                     <?php
@@ -122,11 +134,27 @@ $commandes = $c->listCommandes();
                         <td><?= $d['nom'] ?></td>
                         <td><?= $d['quantite'] ?></td>
                         <td><?= $d['prix'] ?> TND</td>
+                        <td><?= $d['subtotal'] ?> TND</td>
                     </tr>
 
                     <?php endforeach; ?>
 
                 </table>
+
+                <!-- ACTIONS ADMIN -->
+                <div style="margin-top:10px;">
+
+                    <a href="update_status.php?id=<?= $cmd['id'] ?>&status=validée"
+                       class="btn btn-success btn-sm">
+                        Valider
+                    </a>
+
+                    <a href="update_status.php?id=<?= $cmd['id'] ?>&status=annulée"
+                       class="btn btn-danger btn-sm">
+                        Annuler
+                    </a>
+
+                </div>
 
             </td>
         </tr>

@@ -35,8 +35,10 @@ if (!empty($_SESSION['panier'])) {
 
       <div class="separator"></div>
 
+
       
   
+
 
    <div class="brand-signature">
       <span class="m-text">MAISON</span>
