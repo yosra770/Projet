@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="/web2/projet/style.css">
 </head>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <body>
 
 <?php
@@ -16,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-/* 🔥 FIX IMPORTANT : panier count global */
+/* panier count */
 $cartCount = 0;
 
 if (!empty($_SESSION['panier'])) {
@@ -30,23 +28,19 @@ if (!empty($_SESSION['panier'])) {
   <div class="container">
 
     <!-- LOGO -->
-    <a class="navbar-brand d-flex align-items-center" href="/web2/projet/index.php" style="text-decoration: none;">
-      <img src="/web2/projet/images/logo.png" alt="Maison NYA Logo" class="logo-minimalist">
+    <a class="navbar-brand d-flex align-items-center" href="/web2/projet/index.php">
+
+      <img src="/web2/projet/images/logo.png" alt="Logo" class="logo-minimalist">
 
       <div class="separator"></div>
 
+      <div class="brand-signature">
+        <span class="m-text">MAISON</span>
+        <span class="n-text">NAYA</span>
+      </div>
 
-      
-  
+    </a>
 
-
-   <div class="brand-signature">
-      <span class="m-text">MAISON</span>
-      <span class="n-text">NAYA</span>
-   </div>
-</a>
-<!-- BOOTSTRAP JS (IMPORTANT) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- HAMBURGER -->
     <button class="navbar-toggler" type="button"
       data-bs-toggle="collapse"
@@ -104,20 +98,13 @@ if (!empty($_SESSION['panier'])) {
       <!-- ICONS -->
       <div class="d-flex gap-3 align-items-center">
 
-        <!-- FAVORIS -->
         <a href="/web2/projet/favoris/liste.php" class="fs-5 text-dark">❤️</a>
 
-        <!-- PANIER -->
-        <a href="/web2/projet/panier/afficher.php" class="cart-icon" style="position:relative; font-size:22px; text-decoration:none;">
-
+        <a href="/web2/projet/panier/afficher.php" style="position:relative; font-size:22px; text-decoration:none;">
           🛒
-
           <?php if ($cartCount > 0): ?>
-            <span class="cart-badge">
-              <?= $cartCount ?>
-            </span>
+            <span class="cart-badge"><?= $cartCount ?></span>
           <?php endif; ?>
-
         </a>
 
         <?php if(!isset($_SESSION['user'])) { ?>
@@ -127,24 +114,12 @@ if (!empty($_SESSION['panier'])) {
 
         <?php } else { ?>
 
-         <!-- LOGGED -->
+          <?php if($_SESSION['user']['role'] == 'admin') { ?>
+            <a href="/web2/projet/admin/dashboard.php" class="btn btn-warning btn-sm">Dashboard</a>
+          <?php } ?>
 
-<?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') { ?>
-
-  <!-- ADMIN BUTTON -->
-  <a href="/web2/projet/admin/dashboard.php" class="btn btn-warning btn-sm">
-    Dashboard
-  </a>
-
-<?php } ?>
-
-<a href="/web2/projet/user/profile.php" class="btn btn-dark btn-sm">
-  Profile
-</a>
-
-<a href="/web2/projet/auth/logout.php" class="btn btn-outline-dark btn-sm">
-  Logout
-</a>
+          <a href="/web2/projet/user/profile.php" class="btn btn-dark btn-sm">Profile</a>
+          <a href="/web2/projet/auth/logout.php" class="btn btn-outline-dark btn-sm">Logout</a>
 
         <?php } ?>
 
@@ -153,3 +128,9 @@ if (!empty($_SESSION['panier'])) {
     </div>
   </div>
 </nav>
+
+<!-- Bootstrap JS (UNE SEULE FOIS) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -91,7 +91,7 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
         </div>
 
         <div class="text-center mt-5">
-            <a href="index.php" class="btn-black">Retour à la collection</a>
+            <a href="../index.php" class="btn-black">Retour à la collection</a>
         </div>
     </div>
 </div>

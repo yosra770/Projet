@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: login.php");
         exit();
     }
-    $_SESSION['utilisateur'] = $_SESSION['user'];
-    
+
+    // ✅ SESSION USER (CORRECT)
     $_SESSION['user'] = [
         'id' => $user['id'],
         'nom' => $user['nom'],
@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'role' => $user['role']
     ];
 
+    // 🔁 REDIRECTION
     if ($user['role'] === 'admin') {
         header("Location: ../admin/dashboard.php");
     } else {
