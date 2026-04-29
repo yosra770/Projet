@@ -134,6 +134,9 @@ requireAdmin();
                 <th>Aperçu</th>
                 <th>Nom du Modèle</th>
                 <th>Prix</th>
+                <th>Catégorie</th>
+<th>Style</th>
+<th>Stock</th>
                 <th class="text-end">Actions</th>
             </tr>
         </thead>
@@ -156,6 +159,21 @@ requireAdmin();
     <td>
         <span class="price-badge"><?= $prod['prix'] ?> TND</span>
     </td>
+    <td><?= $prod['categorie'] ?></td>
+
+<td><?= $prod['style'] ?></td>
+
+<td>
+    <?php if ($prod['stock'] > 0): ?>
+        <span style="color:green; font-weight:bold;">
+            <?= $prod['stock'] ?>
+        </span>
+    <?php else: ?>
+        <span style="color:red; font-weight:bold;">
+            Rupture
+        </span>
+    <?php endif; ?>
+</td>
 
    <td class="text-end">
 

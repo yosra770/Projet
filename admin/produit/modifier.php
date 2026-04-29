@@ -2,8 +2,7 @@
 require_once(__DIR__ . "/traitement.php");
 
 $p = new produit();
-$res = $p->getProduit($_GET['id']);
-$prod = $res->fetch();
+$prod = $p->getProduit($_GET['id']);
 ?>
 
 <!DOCTYPE html>
@@ -127,7 +126,15 @@ $prod = $res->fetch();
 
             <label style="color: #888; font-size: 12px; margin-left: 5px;">Description</label>
             <textarea name="description"><?= $prod['description'] ?></textarea>
+            <select name="categorie" required>
+    <option value="men" <?= $prod['categorie']=='men'?'selected':'' ?>>Homme</option>
+    <option value="women" <?= $prod['categorie']=='women'?'selected':'' ?>>Femme</option>
+    <option value="kids" <?= $prod['categorie']=='kids'?'selected':'' ?>>Enfant</option>
+</select>
 
+<input type="text" name="style" value="<?= $prod['style'] ?>" required>
+
+<input type="number" name="stock" value="<?= $prod['stock'] ?>" required>
             <button name="update">Mettre à jour</button>
             <a href="liste.php" class="btn-annuler">Annuler les modifications</a>
         </form>
@@ -144,7 +151,11 @@ if(isset($_POST['update'])) {
     $p->nom = $_POST['nom'];
     $p->prix = $_POST['prix'];
     $p->description = $_POST['description'];
+    $p->categorie = $_POST['categorie'];
+    $p->style = $_POST['style'];
+    $p->stock = $_POST['stock'];
     $p->modifierProduit($_GET['id']);
+    
     header("Location: liste.php");
 }
 ?>

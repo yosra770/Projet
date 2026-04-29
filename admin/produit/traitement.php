@@ -6,6 +6,9 @@ class produit
     public $prix;
     public $description;
     public $image;
+    public $categorie;
+    public $style;
+    public $stock;
 
     // 🔹 Ajouter produit
     function insertProduit()
@@ -14,10 +17,20 @@ class produit
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
-        $req = "INSERT INTO produits (nom, description, prix, image) 
-                VALUES ('$this->nom', '$this->description', '$this->prix', '$this->image')";
+        $req = "INSERT INTO produits 
+        (nom, description, prix, image, categorie, style, stock) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        $pdo->exec($req) or print_r($pdo->errorInfo());
+        $stmt = $pdo->prepare($req);
+        $stmt->execute([
+            $this->nom,
+            $this->description,
+            $this->prix,
+            $this->image,
+            $this->categorie,
+            $this->style,
+            $this->stock
+        ]);
     }
 
     // 🔹 Lister produits
@@ -27,10 +40,7 @@ class produit
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
-        $req = "SELECT * FROM produits";
-        $res = $pdo->query($req) or print_r($pdo->errorInfo());
-
-        return $res;
+        return $pdo->query("SELECT * FROM produits");
     }
 
     // 🔹 Récupérer un produit
@@ -40,10 +50,11 @@ class produit
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
-        $req = "SELECT * FROM produits WHERE id='$id'";
-        $res = $pdo->query($req) or print_r($pdo->errorInfo());
+        $req = "SELECT * FROM produits WHERE id = ?";
+        $stmt = $pdo->prepare($req);
+        $stmt->execute([$id]);
 
-        return $res;
+        return $stmt->fetch();
     }
 
     // 🔹 Modifier produit
@@ -54,10 +65,20 @@ class produit
         $pdo = $cnx->CNXbase();
 
         $req = "UPDATE produits 
-                SET nom='$this->nom', description='$this->description', prix='$this->prix' 
-                WHERE id='$id'";
+        SET nom=?, description=?, prix=?, image=?, categorie=?, style=?, stock=? 
+        WHERE id=?";
 
-        $pdo->exec($req) or print_r($pdo->errorInfo());
+        $stmt = $pdo->prepare($req);
+        $stmt->execute([
+            $this->nom,
+            $this->description,
+            $this->prix,
+            $this->image,
+            $this->categorie,
+            $this->style,
+            $this->stock,
+            $id
+        ]);
     }
 
     // 🔹 Supprimer produit
@@ -67,8 +88,9 @@ class produit
         $cnx = new \Connexion();
         $pdo = $cnx->CNXbase();
 
-        $req = "DELETE FROM produits WHERE id='$id'";
-        $pdo->exec($req);
+        $req = "DELETE FROM produits WHERE id=?";
+        $stmt = $pdo->prepare($req);
+        $stmt->execute([$id]);
     }
 }
 ?>

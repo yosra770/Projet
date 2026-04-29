@@ -35,12 +35,6 @@ if (!empty($_SESSION['panier'])) {
 
       <div class="separator"></div>
 
-      <div class="brand-signature">
-        <span class="m-text">MAISON</span>
-        <span class="n-text">NYA</span>
-      </div>
-    </a>
-
    <div class="brand-signature">
       <span class="m-text">MAISON</span>
       <span class="n-text">NAYA</span>

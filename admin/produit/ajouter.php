@@ -67,6 +67,9 @@ if (isset($_POST['ajouter'])) {
     $p->nom = $_POST['nom'];
     $p->prix = $_POST['prix'];
     $p->description = $_POST['description'];
+    $p->categorie = $_POST['categorie'];
+$p->style = $_POST['style'];
+$p->stock = $_POST['stock'];
 
     // 🔥 GESTION IMAGE
     $image = "";
@@ -106,7 +109,16 @@ if (isset($_POST['ajouter'])) {
 
             <label style="display: block; color: #888; font-size: 13px; margin-bottom: 8px;">Image du produit</label>
             <input type="file" name="image" required style="color: #b0b0b0;">
+            <select name="categorie" required>
+    <option value="">Choisir catégorie</option>
+    <option value="men">Homme</option>
+    <option value="women">Femme</option>
+    <option value="kids">Enfant</option>
+</select>
 
+<input type="text" name="style" placeholder="Style (ex: running)" required>
+
+<input type="number" name="stock" placeholder="Stock" required>
             <button name="ajouter">Ajouter au Catalogue</button>
         </form>
     </div>
