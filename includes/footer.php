@@ -21,26 +21,24 @@
 
       <div class="col-md-2 offset-md-1">
         <h5>BOUTIQUE</h5>
-        <a href="#">Nouveautés</a>
-        <a href="#">Best Sellers</a>
-        <a href="#">Hommes</a>
-        <a href="#">Femmes</a>
+        
+        <a href="/web2/projet/produits/liste.php?cat=men&style=running">Running</a>
+        <a href="/web2/projet/produits/liste.php?cat=women&style=running">Femmes</a>
       </div>
 
       <div class="col-md-2">
         <h5>AIDE</h5>
         <a href="#">Contact</a>
         <a href="#">FAQ</a>
-        <a href="#">Livraison</a>
-        <a href="#">Retours</a>
+       
       </div>
 
       <div class="col-md-3">
         <h5>MAISON</h5>
-        <a href="#">Mentions Légales</a>
-        <a href="#">Confidentialité</a>
+       <a href="/web2/projet/pages/mentions_legales.php">Mentions Légales</a>
+        <a href="/web2/projet/pages/confidentialite.php">Confidentialité</a>
         <p class="footer-text mt-4">
-          <span class="d-block">✉ admincontact@gmail.com</span>
+          <span class="d-block">✉ yousraderbel30600@gmail.com</span>
           <span class="d-block">📞 +216 54 132 164</span>
         </p>
       </div>

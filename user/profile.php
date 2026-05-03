@@ -57,35 +57,43 @@ $totalSpent = array_sum(array_column($orders, 'total'));
     <div class="row">
         <div class="col-lg-4">
             <div class="panel">
-                <div class="avatar"><?= strtoupper(substr($user['nom'], 0, 1)) ?></div>
-                <h4><?= htmlspecialchars($user['nom']) ?></h4>
-                <p style="color:#666; font-size: 14px;"><?= htmlspecialchars($user['email']) ?></p>
+            <div class="avatar">
+    <?= strtoupper(substr($user['nom'], 0, 1)) ?>
+</div>
+
+<h4>
+    <?= htmlspecialchars($user['nom']) ?> <?= htmlspecialchars($user['prenom']) ?>
+</h4>
+
+<p style="color:#666; font-size: 14px;">
+    <?= htmlspecialchars($user['email']) ?>
+</p>
                 
                 <div class="row mt-4 mb-4">
                     <div class="col-6 stat-box">
                         <span class="stat-val"><?= $totalOrders ?></span>
-                        <span class="stat-label">Commandes</span>
+                        <span class="stat-label">Orders</span>
                     </div>
                     <div class="col-6 stat-box">
                         <span class="stat-val"><?= number_format($totalSpent, 0) ?></span>
-                        <span class="stat-label">DT Dépensés</span>
+                        <span class="stat-label">DT Spent</span>
                     </div>
                 </div>
 
                 <div class="mt-4">
-                    <a href="edit_profile.php" class="action-link">Modifier profil</a>
-                    <a href="change_password.php" class="action-link">Changer mot de passe</a>
-                    <a href="../auth/logout.php" class="action-link" style="color: #a00;">Déconnexion</a>
+                    <a href="edit_profile.php" class="action-link">edit email</a>
+                    <a href="../auth/forgot_password.php" class="action-link">Change password</a>
+                    <a href="../auth/logout.php" class="action-link" style="color: #a00;">logout</a>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-8">
             <div class="panel">
-                <h4 class="mb-4">Historique des commandes</h4>
+                <h4 class="mb-4">Order History</h4>
                 
                 <?php if (empty($orders)): ?>
-                    <p style="color:#888;">Aucune commande pour le moment.</p>
+                    <p style="color:#888;">nothing to show here.</p>
                 <?php else: ?>
                     <?php foreach ($orders as $order): ?>
                         <div class="order-row">
@@ -97,8 +105,8 @@ $totalSpent = array_sum(array_column($orders, 'total'));
                                 <?= number_format($order['total'], 2) ?> DT
                             </div>
                             <div class="text-end">
-                                <a href="order_details.php?id=<?= $order['id'] ?>" class="btn-action">Détails</a>
-                                <a href="invoice.php?id=<?= $order['id'] ?>" class="btn-action">Facture</a>
+                                <a href="../Produits/success.php?id=<?= $order['id'] ?>" class="btn-action">Details</a>
+                                
                             </div>
                         </div>
                     <?php endforeach; ?>

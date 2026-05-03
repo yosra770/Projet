@@ -76,6 +76,13 @@ if (session_status() === PHP_SESSION_NONE) {
                 </p>
             </div>
         </form>
+        <div class="text-center mt-3">
+    <a href="forgot_password.php" style="font-size:13px; color:#555;">
+        Forgot password?
+    </a>
+</div>
+
+
     </div>
 </div>
 

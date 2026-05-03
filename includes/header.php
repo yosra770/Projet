@@ -91,9 +91,9 @@ if (!empty($_SESSION['panier'])) {
       </ul>
 
       <!-- SEARCH -->
-      <form class="d-flex me-3 search-bar">
-        <input class="form-control" type="search" placeholder="Search sneakers...">
-      </form>
+   <form method="GET" action="/web2/projet/produits/search.php" class="d-flex me-3 search-bar">
+    <input type="search" name="q" class="form-control" placeholder="Search sneakers...">
+</form>
 
       <!-- ICONS -->
       <div class="d-flex gap-3 align-items-center">
