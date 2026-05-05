@@ -1,7 +1,17 @@
-<?php include("../includes/header.php"); ?>
 <?php
+
 require_once("../includes/session.php");
+require_once(__DIR__ . "/commandes/commande_traitement.php");
+
 requireAdmin();
+
+$c = new \Commande();
+
+$nbProduits = $c->countProduits();
+$nbCommandes = $c->countCommandesMois();
+$nbClients = $c->countClients();
+
+include("../includes/header.php");
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +54,7 @@ requireAdmin();
                     <div class="icon-circle bg-gold-light">
                         <i class="fas fa-box"></i>
                     </div>
-                    <div class="stat-value">120</div>
+<div class="stat-value"><?= $nbProduits ?></div>
                     <div class="stat-label">Produits en ligne</div>
                 </div>
             </div>
@@ -54,7 +64,7 @@ requireAdmin();
                     <div class="icon-circle bg-blue-light">
                         <i class="fas fa-shopping-bag"></i>
                     </div>
-                    <div class="stat-value">75</div>
+                    <div class="stat-value"><?= $nbCommandes ?></div>
                     <div class="stat-label">Commandes ce mois</div>
                 </div>
             </div>
@@ -64,7 +74,7 @@ requireAdmin();
                     <div class="icon-circle bg-purple-light">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-value">50</div>
+                    <div class="stat-value"><?= $nbClients ?></div>
                     <div class="stat-label">Nouveaux Clients</div>
                 </div>
             </div>

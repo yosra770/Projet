@@ -3,6 +3,20 @@ require_once(__DIR__ . "/traitement.php");
 
 $p = new produit();
 $prod = $p->getProduit($_GET['id']);
+
+
+if(isset($_POST['update'])) {
+    $p->nom = $_POST['nom'];
+    $p->prix = $_POST['prix'];
+    $p->description = $_POST['description'];
+    $p->categorie = $_POST['categorie'];
+    $p->style = $_POST['style'];
+    $p->stock = $_POST['stock'];
+    $p->modifierProduit($_GET['id']);
+    
+    header("Location: liste.php");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -146,16 +160,3 @@ $prod = $p->getProduit($_GET['id']);
 </body>
 </html>
 
-<?php
-if(isset($_POST['update'])) {
-    $p->nom = $_POST['nom'];
-    $p->prix = $_POST['prix'];
-    $p->description = $_POST['description'];
-    $p->categorie = $_POST['categorie'];
-    $p->style = $_POST['style'];
-    $p->stock = $_POST['stock'];
-    $p->modifierProduit($_GET['id']);
-    
-    header("Location: liste.php");
-}
-?>

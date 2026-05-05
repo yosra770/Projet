@@ -5,35 +5,42 @@ require_once(__DIR__ . "/commande_traitement.php");
 requireAdmin();
 
 $c = new \Commande();
+
+// ✅ 1. UPDATE D'ABORD
+if(isset($_GET['id']) && isset($_GET['status'])) {
+
+    $id = intval($_GET['id']);
+    $status = $_GET['status'];
+
+    $allowed = ['en attente', 'validée', 'annulée'];
+
+    if(in_array($status, $allowed)) {
+        $c->updateStatus($id, $status);
+    }
+
+    // ✅ 2. REDIRECTION (TRÈS IMPORTANT)
+    header("Location: commande.php");
+    exit();
+}
+
+// ✅ 3. ENSUITE ON CHARGE LES DONNÉES
 $commandes = $c->listCommandes();
 
 ?>
 
 <style>
-
 .product-section {
     width: 82%;
     margin-left:40px;
     background: #fff;
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.05);
 }
 
 .table-custom {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 15px;
-}
-
-.table-custom tbody tr {
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-    transition: 0.3s;
-}
-
-.table-custom tbody tr:hover {
-    transform: scale(1.01);
 }
 
 .table-custom td {
@@ -44,7 +51,6 @@ $commandes = $c->listCommandes();
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 12px;
-    text-transform: capitalize;
 }
 
 .en-attente { background: orange; color: white; }
@@ -53,117 +59,105 @@ $commandes = $c->listCommandes();
 
 .total {
     font-weight: bold;
-    color: #1a1a1a;
 }
-
 </style>
 
 <?php include("../../includes/header.php"); ?>
 
-<div class="d-flex align-items-start">
+<div class="d-flex">
 <?php include("../sidebar.php"); ?>
 
 <div class="product-section">
 
-    <h2>Gestion des Commandes</h2>
+<h2>Gestion des Commandes</h2>
 
-    <table class="table-custom">
+<table class="table-custom">
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Client</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Détails</th>
-            </tr>
-        </thead>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Client</th>
+    <th>Date</th>
+    <th>Total</th>
+    <th>Status</th>
+    <th>Détails</th>
+</tr>
+</thead>
 
-        <tbody>
+<tbody>
 
-        <?php foreach($commandes as $cmd): ?>
+<?php foreach($commandes as $cmd): ?>
 
-        <tr>
-            <td>#<?= $cmd['id'] ?></td>
+<tr>
+    <td>#<?= $cmd['id'] ?></td>
+    <td><?= $cmd['nom'] ?> <?= $cmd['prenom'] ?></td>
+    <td><?= $cmd['date_commande'] ?></td>
+    <td class="total"><?= $cmd['total'] ?> TND</td>
 
-            <td>
-                <?= $cmd['nom'] ?> <?= $cmd['prenom'] ?>
-            </td>
+    <td>
+        <span class="status <?= str_replace(' ', '-', $cmd['status']) ?>">
+            <?= $cmd['status'] ?>
+        </span>
+    </td>
 
-            <td><?= $cmd['date_commande'] ?></td>
+    <td>
+        <button class="btn btn-dark btn-sm"
+            data-bs-toggle="collapse"
+            data-bs-target="#d<?= $cmd['id'] ?>">
+            Voir
+        </button>
+    </td>
+</tr>
 
-            <td class="total">
-                <?= $cmd['total'] ?> TND
-            </td>
+<tr class="collapse" id="d<?= $cmd['id'] ?>">
+<td colspan="6">
 
-            <td>
-                <span class="status <?= str_replace(' ', '-', $cmd['status']) ?>">
-                    <?= $cmd['status'] ?>
-                </span>
-            </td>
+<table class="table table-bordered">
+<tr>
+    <th>Produit</th>
+    <th>Quantité</th>
+    <th>Prix</th>
+    <th>Subtotal</th>
+</tr>
 
-            <td>
-                <button class="btn btn-dark btn-sm"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#d<?= $cmd['id'] ?>">
-                    Voir
-                </button>
-            </td>
-        </tr>
+<?php
+$details = $c->getDetails($cmd['id']);
+foreach($details as $d):
+?>
 
-        <!-- DETAILS -->
-        <tr class="collapse" id="d<?= $cmd['id'] ?>">
-            <td colspan="6">
+<tr>
+    <td><?= $d['nom'] ?></td>
+    <td><?= $d['quantite'] ?></td>
+    <td><?= $d['prix'] ?> TND</td>
+    <td><?= $d['subtotal'] ?> TND</td>
+</tr>
 
-                <table class="table table-bordered">
+<?php endforeach; ?>
+</table>
 
-                    <tr>
-                        <th>Produit</th>
-                        <th>Quantité</th>
-                        <th>Prix</th>
-                        <th>Subtotal</th>
-                    </tr>
+<!-- ACTIONS -->
+<div style="margin-top:10px;">
 
-                    <?php
-                    $details = $c->getDetails($cmd['id']);
-                    foreach($details as $d):
-                    ?>
+<a href="commande.php?id=<?= $cmd['id'] ?>&status=validée"
+   class="btn btn-success btn-sm">
+   Valider
+</a>
 
-                    <tr>
-                        <td><?= $d['nom'] ?></td>
-                        <td><?= $d['quantite'] ?></td>
-                        <td><?= $d['prix'] ?> TND</td>
-                        <td><?= $d['subtotal'] ?> TND</td>
-                    </tr>
+<a href="commande.php?id=<?= $cmd['id'] ?>&status=annulée"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Annuler cette commande ?')">
+   Annuler
+</a>
 
-                    <?php endforeach; ?>
+</div>
 
-                </table>
+</td>
+</tr>
 
-                <!-- ACTIONS ADMIN -->
-                <div style="margin-top:10px;">
+<?php endforeach; ?>
 
-                    <a href="update_status.php?id=<?= $cmd['id'] ?>&status=validée"
-                       class="btn btn-success btn-sm">
-                        Valider
-                    </a>
-
-                    <a href="update_status.php?id=<?= $cmd['id'] ?>&status=annulée"
-                       class="btn btn-danger btn-sm">
-                        Annuler
-                    </a>
-
-                </div>
-
-            </td>
-        </tr>
-
-        <?php endforeach; ?>
-
-        </tbody>
-
-    </table>
+</tbody>
+</table>
 
 </div>
 </div>

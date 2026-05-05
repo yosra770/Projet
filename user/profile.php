@@ -4,7 +4,7 @@ require_once("../config/db.php");
 
 if (!isset($_SESSION['user']['id'])) { header("Location: ../auth/login.php"); exit; }
 
-$connexion = new Connexion();
+$connexion = new \Connexion();
 $conn = $connexion->CNXbase();
 
 $user_id = $_SESSION['user']['id'];
@@ -97,7 +97,7 @@ $totalSpent = array_sum(array_column($orders, 'total'));
                                 <?= number_format($order['total'], 2) ?> DT
                             </div>
                             <div class="text-end">
-                                <a href="order_details.php?id=<?= $order['id'] ?>" class="btn-action">Détails</a>
+                                <a href="success.php?id=<?= $order['id'] ?>" class="btn-action">Détails</a>
                                 <a href="invoice.php?id=<?= $order['id'] ?>" class="btn-action">Facture</a>
                             </div>
                         </div>
