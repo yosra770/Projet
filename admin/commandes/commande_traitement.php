@@ -1,6 +1,5 @@
 <?php
-require_once("../../config/db.php");
-
+require_once(__DIR__ . "/../../config/db.php");
 class Commande {
 
     // 🔹 Lister toutes les commandes
@@ -103,5 +102,38 @@ class Commande {
             $data['couleur']
         ]);
     }
+
+// 🔹 Nombre total de produits
+function countProduits() {
+    $cnx = new \Connexion();
+    $pdo = $cnx->CNXbase();
+
+    $req = "SELECT COUNT(*) as total FROM produits";
+    return $pdo->query($req)->fetch()['total'];
 }
-?>
+
+// 🔹 Commandes du mois
+function countCommandesMois() {
+    $cnx = new \Connexion();
+    $pdo = $cnx->CNXbase();
+
+    $req = "SELECT COUNT(*) as total 
+            FROM commandes 
+            WHERE DATE_FORMAT(date_commande, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')";
+
+    return $pdo->query($req)->fetch()['total'];
+}
+
+// 🔹 Nouveaux clients (ex: ce mois)
+function countClients() {
+    $cnx = new \Connexion();
+    $pdo = $cnx->CNXbase();
+
+    $req = "SELECT COUNT(*) as total FROM utilisateur";
+    return $pdo->query($req)->fetch()['total'];
+}
+  
+
+    
+}
+?>  
