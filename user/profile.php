@@ -107,8 +107,7 @@ $totalSpent = array_sum(array_column($orders, 'total'));
                             <div class="text-end">
                                 <a href="../Produits/success.php?id=<?= $order['id'] ?>" class="btn-action">Details</a>
                                 
-                                <a href="success.php?id=<?= $order['id'] ?>" class="btn-action">Détails</a>
-                                <a href="invoice.php?id=<?= $order['id'] ?>" class="btn-action">Facture</a>
+                               
                             </div>
                         </div>
                     <?php endforeach; ?>
