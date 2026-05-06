@@ -38,7 +38,7 @@
        <a href="/web2/projet/pages/mentions_legales.php">Mentions Légales</a>
         <a href="/web2/projet/pages/confidentialite.php">Confidentialité</a>
         <p class="footer-text mt-4">
-          <span class="d-block">✉ yousraderbel30600@gmail.com</span>
+          <span class="d-block">✉ maison.naya@gmail.com</span>
           <span class="d-block">📞 +216 54 132 164</span>
         </p>
       </div>
