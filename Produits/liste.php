@@ -71,7 +71,7 @@ $favoris = $_SESSION['favoris'] ?? [];
 
                     <div class="img-wrapper">
                         <a href="detail.php?id=<?= $p['id'] ?>">
-                            <img src="../assets/images/<?= $p['image'] ?>" alt="<?= $p['nom'] ?>">
+                            <img src="../uploads/<?= $p['image'] ?>" alt="<?= $p['nom'] ?>">
                         </a>
                     </div>
 

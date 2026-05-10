@@ -101,7 +101,7 @@ while($row = $result->fetch(PDO::FETCH_ASSOC)) {
         </div>
 
         <!-- IMAGE (temporaire) -->
-        <img src="/web2/projet/images/default.jpg" alt="product">
+        <img src="/web2/projet/uploads/<?php echo $row['image']; ?>" alt="product">
 
         <h5><?php echo $row['nom']; ?></h5>
         <p><?php echo $row['prix']; ?> DT</p>

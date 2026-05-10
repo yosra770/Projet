@@ -1,9 +1,9 @@
 <?php
+require_once("../../includes/session.php");
 require_once(__DIR__ . "/traitement.php");
 
 $p = new produit();
 $prod = $p->getProduit($_GET['id']);
-
 
 if(isset($_POST['update'])) {
     $p->nom = $_POST['nom'];
@@ -15,8 +15,8 @@ if(isset($_POST['update'])) {
     $p->modifierProduit($_GET['id']);
     
     header("Location: liste.php");
+    exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -24,19 +24,26 @@ if(isset($_POST['update'])) {
 <head>
     <meta charset="UTF-8">
     <title>Modifier Produit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Configuration de base */
         body {
             background-color: #f4f7f6;
             font-family: 'Poppins', sans-serif;
             margin: 0;
-            padding-top: 80px; /* Espace pour le header */
+            padding-top: 70px;
         }
 
-        /* Conteneur pour aligner avec la sidebar */
         .main-wrapper {
             display: flex;
-            min-height: calc(100vh - 80px);
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        aside, .sidebar {
+            z-index: 10;
+            min-width: 250px;
+            background: #fff;
+            border-right: 1px solid #ddd;
         }
 
         .content-area {
@@ -44,7 +51,7 @@ if(isset($_POST['update'])) {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         /* Formulaire Noir */
@@ -52,72 +59,101 @@ if(isset($_POST['update'])) {
             background: #121212;
             padding: 40px;
             border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 420px;
+            max-width: 480px;
             color: white;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
+        h2 { 
+            text-align: center; 
+            color: #ffffff; 
+            margin-top: 0;
+            margin-bottom: 30px;
             font-weight: 600;
         }
 
-        /* Champs de texte */
+        /* Champs de saisie harmonisés */
         input[type="text"], 
-        textarea {
-            width: 100%;
-            padding: 14px 18px;
-            margin-bottom: 20px;
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 12px;
+        input[type="number"], 
+        select, 
+        textarea { 
+            width: 100%; 
+            padding: 14px 18px; 
+            margin-bottom: 15px; 
+            background: #1e1e1e; 
+            border: 1px solid #333; 
+            border-radius: 12px; 
             color: #fff;
-            font-size: 15px;
+            font-family: inherit;
             box-sizing: border-box;
             transition: all 0.3s ease;
         }
 
-        input:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #bb86fc; /* Accent violet */
+            border-color: #f39c12;
             background: #252525;
         }
 
-        textarea {
-            height: 120px;
-            resize: none;
+        /* Labels stylisés */
+        .field-label {
+            display: block;
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 5px;
+            margin-left: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Bouton Modifier (Orange/Jaune pour différencier de l'ajout) */
-        button {
-            width: 100%;
-            padding: 16px;
+        /* Groupes de champs */
+        .input-group {
+            display: flex;
+            gap: 15px;
+        }
+        .input-group div { flex: 1; }
+
+        /* Bouton Update */
+        button { 
+            width: 100%; 
+            padding: 16px; 
             background: #f39c12; 
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 15px;
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 10px;
             text-transform: uppercase;
         }
 
-        button:hover {
-            background: #e67e22;
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        button:hover { 
+            background: #e67e22; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
         }
 
         .btn-annuler {
             display: block;
             text-align: center;
-            margin-top: 15px;
-            color: #888;
+            margin-top: 20px;
+            color: #666;
             text-decoration: none;
             font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .btn-annuler:hover {
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-wrapper { flex-direction: column; }
+            .sidebar { width: 100%; min-width: unset; }
         }
     </style>
 </head>
@@ -132,25 +168,41 @@ if(isset($_POST['update'])) {
         <form method="POST">
             <h2>Modifier le Produit</h2>
 
-            <label style="color: #888; font-size: 12px; margin-left: 5px;">Nom du produit</label>
-            <input type="text" name="nom" value="<?= $prod['nom'] ?>" required>
+            <span class="field-label">Nom du produit</span>
+            <input type="text" name="nom" value="<?= htmlspecialchars($prod['nom']) ?>" required>
 
-            <label style="color: #888; font-size: 12px; margin-left: 5px;">Prix (€)</label>
-            <input type="text" name="prix" value="<?= $prod['prix'] ?>" required>
+            <div class="input-group">
+                <div>
+                    <span class="field-label">Prix (€)</span>
+                    <input type="text" name="prix" value="<?= htmlspecialchars($prod['prix']) ?>" required>
+                </div>
+                <div>
+                    <span class="field-label">Stock</span>
+                    <input type="number" name="stock" value="<?= htmlspecialchars($prod['stock']) ?>" required>
+                </div>
+            </div>
 
-            <label style="color: #888; font-size: 12px; margin-left: 5px;">Description</label>
-            <textarea name="description"><?= $prod['description'] ?></textarea>
-            <select name="categorie" required>
-    <option value="men" <?= $prod['categorie']=='men'?'selected':'' ?>>Homme</option>
-    <option value="women" <?= $prod['categorie']=='women'?'selected':'' ?>>Femme</option>
-    <option value="kids" <?= $prod['categorie']=='kids'?'selected':'' ?>>Enfant</option>
-</select>
+            <span class="field-label">Description</span>
+            <textarea name="description" rows="3"><?= htmlspecialchars($prod['description']) ?></textarea>
 
-<input type="text" name="style" value="<?= $prod['style'] ?>" required>
+            <div class="input-group">
+                <div>
+                    <span class="field-label">Catégorie</span>
+                    <select name="categorie" required>
+                        <option value="men" <?= $prod['categorie']=='men'?'selected':'' ?>>Homme</option>
+                        <option value="women" <?= $prod['categorie']=='women'?'selected':'' ?>>Femme</option>
+                        <option value="kids" <?= $prod['categorie']=='kids'?'selected':'' ?>>Enfant</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="field-label">Style</span>
+                    <input type="text" name="style" value="<?= htmlspecialchars($prod['style']) ?>" required>
+                </div>
+            </div>
 
-<input type="number" name="stock" value="<?= $prod['stock'] ?>" required>
-            <button name="update">Mettre à jour</button>
-            <a href="liste.php" class="btn-annuler">Annuler les modifications</a>
+            <button name="update" type="submit">Enregistrer les modifications</button>
+            
+            <a href="liste.php" class="btn-annuler">← Retour à la liste</a>
         </form>
     </div>
 </div>
@@ -159,4 +211,3 @@ if(isset($_POST['update'])) {
 
 </body>
 </html>
-
