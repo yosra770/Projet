@@ -115,6 +115,8 @@ $commandes = $c->listCommandes();
 <table class="table table-bordered">
 <tr>
     <th>Produit</th>
+     <th>Taille</th>
+    <th>Couleur</th>
     <th>Quantité</th>
     <th>Prix</th>
     <th>Subtotal</th>
@@ -127,8 +129,19 @@ foreach($details as $d):
 
 <tr>
     <td><?= $d['nom'] ?></td>
+
+    <td>
+        <?= !empty($d['taille']) ? $d['taille'] : '-' ?>
+    </td>
+
+    <td>
+        <?= !empty($d['couleur']) ? $d['couleur'] : '-' ?>
+    </td>
+
     <td><?= $d['quantite'] ?></td>
+
     <td><?= $d['prix'] ?> TND</td>
+
     <td><?= $d['subtotal'] ?> TND</td>
 </tr>
 

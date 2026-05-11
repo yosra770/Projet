@@ -63,7 +63,8 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
 
         <div class="order-meta mt-5">
             <div><strong>Date</strong><br><?= date('d M Y', strtotime($order['date_commande'])) ?></div>
-            <div><strong>Statut</strong><br><span style="color:#28a745;">Préparation</span></div>
+           <div>
+    <strong>Statut</strong><br><span style="color:#28a745;"> <?= htmlspecialchars($order['status']) ?> </span></div>
             <div><strong>Total</strong><br><?= formatPrice($order['total']) ?></div>
         </div>
 

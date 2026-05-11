@@ -136,6 +136,8 @@ requireAdmin();
                 <th>Prix</th>
                 <th>Catégorie</th>
 <th>Style</th>
+<th>Tailles</th>
+<th>Couleurs</th>
 <th>Stock</th>
                 <th class="text-end">Actions</th>
             </tr>
@@ -163,16 +165,95 @@ requireAdmin();
 
 <td><?= $prod['style'] ?></td>
 
+<?php
+
+$variantes = $p->getVariantes($prod['id']);
+
+$tailles = [];
+$couleurs = [];
+
+$total_stock = 0;
+
+foreach($variantes as $v){
+
+    $tailles[] = $v['taille'];
+
+    $couleurs[] = $v['couleur'];
+
+    $total_stock += $v['stock'];
+}
+
+// supprimer doublons
+$tailles = array_unique($tailles);
+
+$couleurs = array_unique($couleurs);
+
+?>
+
+<!-- TAILLES -->
 <td>
-    <?php if ($prod['stock'] > 0): ?>
-        <span style="color:green; font-weight:bold;">
-            <?= $prod['stock'] ?>
-        </span>
-    <?php else: ?>
-        <span style="color:red; font-weight:bold;">
-            Rupture
-        </span>
-    <?php endif; ?>
+
+<?php foreach($tailles as $t): ?>
+
+    <span style="
+        background:#f1f5f9;
+        padding:5px 10px;
+        border-radius:8px;
+        margin:2px;
+        display:inline-block;
+        font-size:12px;
+    ">
+        <?= $t ?>
+    </span>
+
+<?php endforeach; ?>
+
+</td>
+
+<!-- COULEURS -->
+<td>
+
+<?php foreach($couleurs as $coul): ?>
+
+    <span style="
+        background:#111827;
+        color:white;
+        padding:5px 10px;
+        border-radius:8px;
+        margin:2px;
+        display:inline-block;
+        font-size:12px;
+    ">
+        <?= $coul ?>
+    </span>
+
+<?php endforeach; ?>
+
+</td>
+
+<!-- STOCK -->
+<td>
+
+<?php if($total_stock > 0): ?>
+
+    <span style="
+        color:green;
+        font-weight:bold;
+    ">
+        <?= $total_stock ?>
+    </span>
+
+<?php else: ?>
+
+    <span style="
+        color:red;
+        font-weight:bold;
+    ">
+        Rupture
+    </span>
+
+<?php endif; ?>
+
 </td>
 
    <td class="text-end">
