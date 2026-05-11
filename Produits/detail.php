@@ -12,8 +12,28 @@ $produit = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$produit) { die("Produit introuvable"); }
 
 // Logique tailles
-$pointures = ($produit['categorie'] == 'men') ? range(40, 46) : (($produit['categorie'] == 'women') ? range(36, 42) : range(28, 35));
+$stmtVar = $conn->prepare("
+    SELECT *
+    FROM produit_variantes
+    WHERE produit_id = ?
+");
 
+$stmtVar->execute([$id]);
+
+$variantes = $stmtVar->fetchAll(PDO::FETCH_ASSOC);
+
+// tailles uniques
+$pointures = [];
+
+// couleurs uniques
+$couleurs = [];
+
+foreach($variantes as $v){
+
+    $pointures[$v['taille']] = $v['stock'];
+
+    $couleurs[$v['couleur']] = $v['stock'];
+}
 $favoris = $_SESSION['favoris'] ?? [];
 $isFav = isset($favoris[$produit['id']]);
 ?>
@@ -25,6 +45,17 @@ $isFav = isset($favoris[$produit['id']]);
 
     body { background-color: #F8F7F4; font-family: 'Inter', sans-serif; }
     h1, h2 { font-family: 'Playfair Display', serif; }
+
+    .size-disabled{
+    opacity:0.4;
+    cursor:not-allowed;
+    background:#f1f1f1;
+}
+
+.color-disabled{
+    opacity:0.3;
+    cursor:not-allowed;
+}
 
     /* Layout */
     .product-container { background: #fff; padding: 40px; border: 1px solid #E5E0D8; margin-top: 60px; }
@@ -70,20 +101,74 @@ $isFav = isset($favoris[$produit['id']]);
 
                 <span class="option-label">Taille</span>
                 <div class="size-group">
-                    <?php foreach ($pointures as $t): ?>
-                        <input type="radio" name="taille" value="<?= $t ?>" id="size-<?= $t ?>" class="size-option" required>
-                        <label for="size-<?= $t ?>" class="size-label"><?= $t ?></label>
-                    <?php endforeach; ?>
+                    <?php foreach ($pointures as $taille => $stock): ?>
+
+    <?php $disabled = ($stock <= 0); ?>
+
+    <input
+        type="radio"
+        name="taille"
+        value="<?= $taille ?>"
+        id="size-<?= $taille ?>"
+        class="size-option"
+        <?= $disabled ? 'disabled' : '' ?>
+        required
+    >
+
+    <label
+        for="size-<?= $taille ?>"
+        class="size-label <?= $disabled ? 'size-disabled' : '' ?>"
+    >
+
+        <?= $taille ?>
+
+    </label>
+
+<?php endforeach; ?>
                 </div>
 
                 <span class="option-label">Couleur</span>
                 <div class="color-group">
-                    <?php 
-                    $colors = ['Noir' => '#000000', 'Blanc' => '#e0e0e0', 'Rouge' => '#A00', 'Bleu' => '#2a5298'];
-                    foreach ($colors as $name => $hex): ?>
-                        <input type="radio" name="couleur" value="<?= $name ?>" id="col-<?= $name ?>" class="d-none color-input" required>
-                        <label for="col-<?= $name ?>" class="color-swatch" style="background:<?= $hex ?>;"></label>
-                    <?php endforeach; ?>
+                   <?php
+
+$colorsMap = [
+    'Noir' => '#000000',
+    'Blanc' => '#e0e0e0',
+    'Rouge' => '#A00',
+    'Bleu' => '#2a5298',
+    'Vert' => 'green',
+    'Gris' => 'gray',
+    'Rose' => 'pink',
+    'Beige' => '#d8c3a5',
+    'Marron' => '#5c4033',
+    'Jaune' => '#f1c40f'
+];
+
+foreach ($couleurs as $name => $stock):
+
+    $disabled = ($stock <= 0);
+
+    $hex = $colorsMap[$name] ?? '#000';
+
+?>
+
+<input
+    type="radio"
+    name="couleur"
+    value="<?= $name ?>"
+    id="col-<?= $name ?>"
+    class="d-none color-input"
+    <?= $disabled ? 'disabled' : '' ?>
+    required
+>
+
+<label
+    for="col-<?= $name ?>"
+    class="color-swatch <?= $disabled ? 'color-disabled' : '' ?>"
+    style="background:<?= $hex ?>;"
+></label>
+
+<?php endforeach; ?>
                 </div>
 
                 <button class="btn-buy">🛒 Ajouter au panier</button>

@@ -4,16 +4,46 @@ require_once(__DIR__ . "/traitement.php");
 
 $p = new produit();
 $prod = $p->getProduit($_GET['id']);
+$variantes = $p->getVariantes($_GET['id']);
 
 if(isset($_POST['update'])) {
+
     $p->nom = $_POST['nom'];
     $p->prix = $_POST['prix'];
     $p->description = $_POST['description'];
     $p->categorie = $_POST['categorie'];
     $p->style = $_POST['style'];
-    $p->stock = $_POST['stock'];
+    $p->stock = 0;
+
     $p->modifierProduit($_GET['id']);
-    
+
+    // supprimer anciennes variantes
+    $p->supprimerVariantes($_GET['id']);
+
+    // ajouter nouvelles variantes
+    if(isset($_POST['taille'])) {
+
+        foreach($_POST['taille'] as $index => $taille) {
+
+            $couleur = $_POST['couleur'][$index];
+            $stock = $_POST['stock_variante'][$index];
+
+            if(
+                !empty($taille)
+                &&
+                !empty($couleur)
+            ) {
+
+                $p->insertVariante(
+                    $_GET['id'],
+                    $taille,
+                    $couleur,
+                    $stock
+                );
+            }
+        }
+    }
+
     header("Location: liste.php");
     exit();
 }
@@ -176,10 +206,7 @@ if(isset($_POST['update'])) {
                     <span class="field-label">Prix (€)</span>
                     <input type="text" name="prix" value="<?= htmlspecialchars($prod['prix']) ?>" required>
                 </div>
-                <div>
-                    <span class="field-label">Stock</span>
-                    <input type="number" name="stock" value="<?= htmlspecialchars($prod['stock']) ?>" required>
-                </div>
+                
             </div>
 
             <span class="field-label">Description</span>
@@ -199,6 +226,105 @@ if(isset($_POST['update'])) {
                     <input type="text" name="style" value="<?= htmlspecialchars($prod['style']) ?>" required>
                 </div>
             </div>
+            <h3 style="margin-top:25px;">
+    Variantes
+</h3>
+
+<div id="variantes">
+
+<?php foreach($variantes as $v): ?>
+
+<div class="input-group variante">
+
+    <!-- POINTURE -->
+    <div>
+
+        <span class="field-label">
+            Pointure
+        </span>
+
+        <select name="taille[]">
+
+            <option value="">Choisir</option>
+
+            <?php for($i=36; $i<=45; $i++): ?>
+
+                <option value="<?= $i ?>"
+                    <?= $v['taille']==$i ? 'selected' : '' ?>>
+
+                    <?= $i ?>
+
+                </option>
+
+            <?php endfor; ?>
+
+        </select>
+
+    </div>
+
+    <!-- COULEUR -->
+    <div>
+
+        <span class="field-label">
+            Couleur
+        </span>
+
+        <select name="couleur[]">
+
+            <?php
+
+            $couleurs = [
+                'Noir',
+                'Blanc',
+                'Rouge',
+                'Bleu',
+                'Vert',
+                'Gris',
+                'Rose',
+                'Beige',
+                'Marron',
+                'Jaune'
+            ];
+
+            ?>
+
+            <?php foreach($couleurs as $c): ?>
+
+                <option value="<?= $c ?>"
+                    <?= $v['couleur']==$c ? 'selected' : '' ?>>
+
+                    <?= $c ?>
+
+                </option>
+
+            <?php endforeach; ?>
+
+        </select>
+
+    </div>
+
+    <!-- STOCK -->
+    <div>
+
+        <span class="field-label">
+            Stock
+        </span>
+
+        <input type="number"
+               name="stock_variante[]"
+               value="<?= $v['stock'] ?>">
+
+    </div>
+
+</div>
+
+<?php endforeach; ?>
+
+</div>
+
+<button type="button" id="addVariant">
+    + Ajouter Variante
+</button>
 
             <button name="update" type="submit">Enregistrer les modifications</button>
             
@@ -206,6 +332,76 @@ if(isset($_POST['update'])) {
         </form>
     </div>
 </div>
+<script>
+
+document
+.getElementById("addVariant")
+.onclick = function() {
+
+    let html = `
+
+    <div class="input-group variante">
+
+        <div>
+
+            <select name="taille[]">
+
+                <option value="">Pointure</option>
+
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+
+            </select>
+
+        </div>
+
+        <div>
+
+            <select name="couleur[]">
+
+                <option value="">Couleur</option>
+
+                <option value="Noir">Noir</option>
+                <option value="Blanc">Blanc</option>
+                <option value="Rouge">Rouge</option>
+                <option value="Bleu">Bleu</option>
+                <option value="Vert">Vert</option>
+                <option value="Gris">Gris</option>
+                <option value="Rose">Rose</option>
+                <option value="Beige">Beige</option>
+                <option value="Marron">Marron</option>
+                <option value="Jaune">Jaune</option>
+
+            </select>
+
+        </div>
+
+        <div>
+
+            <input type="number"
+                   name="stock_variante[]"
+                   placeholder="Stock">
+
+        </div>
+
+    </div>
+
+    `;
+
+    document
+    .getElementById("variantes")
+    .insertAdjacentHTML("beforeend", html);
+};
+
+</script>
 
 <?php include("../../includes/footer.php"); ?>
 

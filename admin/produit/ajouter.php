@@ -4,27 +4,61 @@ require_once(__DIR__ . "/traitement.php");
 
 // Logique de traitement
 if (isset($_POST['ajouter'])) {
+
     $p = new produit();
+
     $p->nom = $_POST['nom'];
     $p->prix = $_POST['prix'];
     $p->description = $_POST['description'];
     $p->categorie = $_POST['categorie'];
     $p->style = $_POST['style'];
-    $p->stock = $_POST['stock'];
+    $p->stock = 0;
 
+    // IMAGE
     $image = "";
+
     if (!empty($_FILES['image']['name'])) {
+
         $image = time() . "_" . $_FILES['image']['name'];
+
         move_uploaded_file(
             $_FILES['image']['tmp_name'],
             __DIR__ . "/../../uploads/" . $image
         );
     }
+
     $p->image = $image;
-    $p->insertProduit();
+
+    // INSERT PRODUIT
+    $produit_id = $p->insertProduit();
+
+    // INSERT VARIANTES
+    if(isset($_POST['taille'])) {
+
+        foreach($_POST['taille'] as $index => $taille) {
+
+            $couleur = $_POST['couleur'][$index];
+            $stock = $_POST['stock_variante'][$index];
+
+            if(
+                !empty($taille)
+                &&
+                !empty($couleur)
+            ) {
+
+                $p->insertVariante(
+                    $produit_id,
+                    $taille,
+                    $couleur,
+                    $stock
+                );
+            }
+        }
+    }
 
     header("Location: liste.php");
     exit();
+
 }
 ?>
 
@@ -180,10 +214,7 @@ if (isset($_POST['ajouter'])) {
                     <span class="field-label">Prix (€)</span>
                     <input type="text" name="prix" placeholder="0.00" required>
                 </div>
-                <div>
-                    <span class="field-label">Stock</span>
-                    <input type="number" name="stock" placeholder="Qté" required>
-                </div>
+                
             </div>
 
             <span class="field-label">Description</span>
@@ -204,6 +235,88 @@ if (isset($_POST['ajouter'])) {
                     <input type="text" name="style" placeholder="Ex: Sport" required>
                 </div>
             </div>
+            <h3 style="margin-top:25px;">Variantes</h3>
+
+<div id="variantes">
+
+    <div class="input-group variante">
+
+        <!-- POINTURE -->
+        <div>
+
+            <span class="field-label">
+                Pointure
+            </span>
+
+            <select name="taille[]">
+
+                <option value="">
+                    Choisir
+                </option>
+
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+
+            </select>
+
+        </div>
+
+        <!-- COULEUR -->
+        <div>
+
+            <span class="field-label">
+                Couleur
+            </span>
+
+            <select name="couleur[]">
+
+                <option value="">
+                    Choisir
+                </option>
+
+                <option value="Noir">Noir</option>
+                <option value="Blanc">Blanc</option>
+                <option value="Rouge">Rouge</option>
+                <option value="Bleu">Bleu</option>
+                <option value="Vert">Vert</option>
+                <option value="Gris">Gris</option>
+                <option value="Rose">Rose</option>
+                <option value="Beige">Beige</option>
+                <option value="Marron">Marron</option>
+                <option value="Jaune">Jaune</option>
+
+            </select>
+
+        </div>
+
+        <!-- STOCK -->
+        <div>
+
+            <span class="field-label">
+                Stock
+            </span>
+
+            <input type="number"
+                   name="stock_variante[]"
+                   placeholder="Qté">
+
+        </div>
+
+    </div>
+
+</div>
+
+<button type="button" id="addVariant">
+    + Ajouter Taille / Couleur
+</button>
 
             <span class="field-label">Image du produit</span>
             <input type="file" name="image" required>
@@ -214,6 +327,75 @@ if (isset($_POST['ajouter'])) {
 </div>
 
 <?php include("../../includes/footer.php"); ?>
+<script>
 
+document
+.getElementById("addVariant")
+.onclick = function() {
+
+    let html = `
+
+    <div class="input-group variante">
+
+        <div>
+
+            <select name="taille[]">
+
+                <option value="">Pointure</option>
+
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+
+            </select>
+
+        </div>
+
+        <div>
+
+            <select name="couleur[]">
+
+                <option value="">Couleur</option>
+
+                <option value="Noir">Noir</option>
+                <option value="Blanc">Blanc</option>
+                <option value="Rouge">Rouge</option>
+                <option value="Bleu">Bleu</option>
+                <option value="Vert">Vert</option>
+                <option value="Gris">Gris</option>
+                <option value="Rose">Rose</option>
+                <option value="Beige">Beige</option>
+                <option value="Marron">Marron</option>
+                <option value="Jaune">Jaune</option>
+
+            </select>
+
+        </div>
+
+        <div>
+
+            <input type="number"
+                   name="stock_variante[]"
+                   placeholder="Stock">
+
+        </div>
+
+    </div>
+
+    `;
+
+    document
+    .getElementById("variantes")
+    .insertAdjacentHTML("beforeend", html);
+};
+
+</script>
 </body>
 </html>
