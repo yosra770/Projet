@@ -38,24 +38,24 @@
     <div class="col-md-4">
       <div class="feature-box">
         🚚
-        <h5>Livraison rapide</h5>
-        <p>Partout en Tunisie</p>
+        <h5>Fast delivery</h5>
+        <p>Throughout Tunisia</p>
       </div>
     </div>
 
     <div class="col-md-4">
       <div class="feature-box">
         💳
-        <h5>Paiement sécurisé</h5>
-        <p>100% fiable</p>
+        <h5>Secure Payment</h5>
+        <p>100% Reliable</p>
       </div>
     </div>
 
     <div class="col-md-4">
       <div class="feature-box">
         🔥
-        <h5>Qualité premium</h5>
-        <p>Meilleures marques</p>
+        <h5>Premium Quality</h5>
+        <p>Best brands</p>
       </div>
     </div>
 
@@ -101,13 +101,15 @@ while($row = $result->fetch(PDO::FETCH_ASSOC)) {
         </div>
 
         <!-- IMAGE (temporaire) -->
-        <img src="/web2/projet/images/default.jpg" alt="product">
+        <img src="/web2/projet/uploads/<?php echo $row['image']; ?>" alt="product">
 
         <h5><?php echo $row['nom']; ?></h5>
         <p><?php echo $row['prix']; ?> DT</p>
 
-        <button class="btn-main">Add to cart</button>
-
+        
+        <a  class="btn-main" href="/web2/projet/produits/detail.php?id=<?= $row['id'] ?>">
+    Add to cart
+</a>
       </div>
     </div>
 

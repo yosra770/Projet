@@ -53,7 +53,7 @@ $isFav = isset($favoris[$produit['id']]);
     <div class="row">
         <div class="col-md-6">
             <div style="position:relative;">
-                <img src="../assets/images/<?= $produit['image'] ?>" class="img-main">
+                <img src="../uploads/<?= $produit['image'] ?>" class="img-main">
                 <a href="../favoris/toggle.php?id=<?= $produit['id'] ?>" style="position:absolute; top:20px; right:20px; font-size:24px; text-decoration:none;">
                     <?= $isFav ? "❤️" : "🤍" ?>
                 </a>
@@ -68,7 +68,7 @@ $isFav = isset($favoris[$produit['id']]);
             <form method="POST" action="../panier/add.php">
                 <input type="hidden" name="id" value="<?= $produit['id'] ?>">
 
-                <span class="option-label">Taille</span>
+                <span class="option-label">Size</span>
                 <div class="size-group">
                     <?php foreach ($pointures as $t): ?>
                         <input type="radio" name="taille" value="<?= $t ?>" id="size-<?= $t ?>" class="size-option" required>
@@ -76,7 +76,7 @@ $isFav = isset($favoris[$produit['id']]);
                     <?php endforeach; ?>
                 </div>
 
-                <span class="option-label">Couleur</span>
+                <span class="option-label">Color</span>
                 <div class="color-group">
                     <?php 
                     $colors = ['Noir' => '#000000', 'Blanc' => '#e0e0e0', 'Rouge' => '#A00', 'Bleu' => '#2a5298'];
@@ -86,13 +86,13 @@ $isFav = isset($favoris[$produit['id']]);
                     <?php endforeach; ?>
                 </div>
 
-                <button class="btn-buy">🛒 Ajouter au panier</button>
+                <button class="btn-buy">🛒 ADD TO CART</button>
             </form>
 
             <div class="mt-4" style="border-top: 1px solid #E5E0D8; padding-top: 20px; font-size: 12px; color: #888;">
-                <p>✓ Expédition sous 24h</p>
-                <p>✓ Satisfait ou remboursé sous 30 jours</p>
-                <p>✓ Paiement sécurisé SSL</p>
+                <p>✓ Shipping within 24 hours</p>
+                <p>✓ 30-day money-back guarantee</p>
+                <p>✓ Secure SSL Payment</p>
             </div>
         </div>
     </div>

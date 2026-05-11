@@ -77,7 +77,7 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
         <h4 style="margin-top:30px; font-size: 18px;">Détails de la commande</h4>
         <?php foreach($items as $item): ?>
             <div class="item-row">
-                <img src="<?= $item['image'] ?>" class="item-img">
+                <img src="../uploads/<?= $item['image'] ?>" class="item-img">
                 <div style="flex:1;">
                     <div style="font-weight:600;"><?= $item['nom'] ?></div>
                     <div style="font-size:12px; color:#888;">Quantité: <?= $item['quantite'] ?></div>

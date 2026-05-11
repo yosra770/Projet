@@ -88,7 +88,7 @@ if (!empty($favoris)) {
             <?php foreach ($produits as $p): ?>
                 <div class="wish-card">
                     <div class="image-wrapper">
-                        <img src="../assets/images/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['nom']) ?>">
+                        <img src="../uploads/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['nom']) ?>">
                         <div class="wish-overlay">
                             <a href="../produits/detail.php?id=<?= $p['id'] ?>" class="btn-wish btn-view">View Product</a>
                             <a href="../favoris/toggle.php?id=<?= $p['id'] ?>" class="btn-wish btn-remove">Remove</a>

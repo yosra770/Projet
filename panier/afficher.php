@@ -73,7 +73,7 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
             <div class="elegant-card">
                 <?php foreach ($cart_details as $data): ?>
                 <div class="item-card">
-                    <img src="<?= $data['produit']['image'] ?>" style="width:120px; height:150px; object-fit:cover;">
+                    <img src="../uploads/<?= $data['produit']['image'] ?>" class="img-main" style="width:120px; height:150px; object-fit:cover;">
                     <div style="flex:1;">
                         <h5 style="font-weight:600; margin-bottom: 5px;"><?= htmlspecialchars($data['produit']['nom']) ?></h5>
                         <p style="font-size:13px; color:#888; margin-bottom:15px;"><?= $data['item']['taille'] ?> • <?= $data['item']['couleur'] ?></p>
@@ -91,20 +91,7 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
                 <?php endforeach; ?>
             </div>
 
-            <div class="mt-5">
-                <h4 style="margin-bottom: 20px;">Complétez votre look</h4>
-                <div class="row g-3">
-                    <?php foreach ($recos as $r): ?>
-                    <div class="col-4">
-                        <div class="reco-card">
-                            <img src="<?= $r['image'] ?>" style="width:100%; height:150px; object-fit:cover; margin-bottom:10px;">
-                            <h6 style="font-size:14px;"><?= $r['nom'] ?></h6>
-                            <p style="font-size:12px; color:#888;"><?= formatPrice($r['prix']) ?></p>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+         
         </div>
 
         <div class="col-lg-4">

@@ -11,7 +11,7 @@
           </div>
         </div>
         <p class="footer-text">
-          L'art de la sneaker haut de gamme. Élégance, confort et distinction pour chaque pas.
+          The art of high-end sneakers. Elegance, comfort and distinction for every step.
         </p>
         <div class="footer-social mt-4">
           <a href="#"><i class="fab fa-instagram"></i> INSTAGRAM</a>
@@ -35,8 +35,8 @@
 
       <div class="col-md-3">
         <h5>MAISON</h5>
-       <a href="/web2/projet/pages/mentions_legales.php">Mentions Légales</a>
-        <a href="/web2/projet/pages/confidentialite.php">Confidentialité</a>
+       <a href="/web2/projet/pages/mentions_legales.php">Legal Mentions</a>
+        <a href="/web2/projet/pages/confidentialite.php">Privacy Policy</a>
         <p class="footer-text mt-4">
           <span class="d-block">✉ yousraderbel30600@gmail.com</span>
           <span class="d-block">📞 +216 54 132 164</span>
