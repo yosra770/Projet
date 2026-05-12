@@ -15,6 +15,22 @@ if(isset($_POST['update'])) {
     $p->style = $_POST['style'];
     $p->stock = 0;
 
+    // garder ancienne image
+$p->image = $prod['image'];
+
+// nouvelle image
+if(!empty($_FILES['image']['name'])){
+
+    $image = time() . "_" . $_FILES['image']['name'];
+
+    move_uploaded_file(
+        $_FILES['image']['tmp_name'],
+        __DIR__ . "/../../uploads/" . $image
+    );
+
+    $p->image = $image;
+}
+
     $p->modifierProduit($_GET['id']);
 
     // supprimer anciennes variantes
@@ -195,8 +211,7 @@ if(isset($_POST['update'])) {
     <?php include("../sidebar.php"); ?>
 
     <div class="content-area">
-        <form method="POST">
-            <h2>Modifier le Produit</h2>
+<form method="POST" enctype="multipart/form-data">            <h2>Modifier le Produit</h2>
 
             <span class="field-label">Nom du produit</span>
             <input type="text" name="nom" value="<?= htmlspecialchars($prod['nom']) ?>" required>
@@ -325,6 +340,25 @@ if(isset($_POST['update'])) {
 <button type="button" id="addVariant">
     + Ajouter Variante
 </button>
+<div style="margin-bottom:20px;">
+
+    <span class="field-label">
+        Image actuelle
+    </span>
+
+    <img
+        src="../../uploads/<?= $prod['image'] ?>"
+        width="120"
+        style="
+            border-radius:12px;
+            display:block;
+            margin-bottom:10px;
+        "
+    >
+
+    <input type="file" name="image">
+
+</div>
 
             <button name="update" type="submit">Enregistrer les modifications</button>
             
