@@ -61,12 +61,12 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
     
     <?php if (empty($cart_details)): ?>
         <div class="elegant-card text-center py-5">
-            <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Votre panier est vide</h2>
-            <a href="../index.php" style="color: #1A1A1A; text-decoration: underline;">Découvrir la collection</a>
+            <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">your cart is empty</h2>
+            <a href="../index.php" style="color: #1A1A1A; text-decoration: underline;">Discover the collection</a>
         </div>
     <?php else: ?>
 
-    <h1 style="font-size: 48px; margin-bottom: 50px;">Votre Panier</h1>
+    <h1 style="font-size: 48px; margin-bottom: 50px;">Your Cart</h1>
 
     <div class="row g-5">
         <div class="col-lg-8">
@@ -96,15 +96,15 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
 
         <div class="col-lg-4">
             <div class="elegant-card" style="position:sticky; top:100px;">
-                <h4 style="margin-bottom:25px; font-size: 22px;">Résumé</h4>
+                <h4 style="margin-bottom:25px; font-size: 22px;">Summary</h4>
                 
                 <div class="d-flex justify-content-between mb-3 text-muted">
-                    <span>Sous-total</span>
+                    <span>Subtotal</span>
                     <span><?= formatPrice($total) ?></span>
                 </div>
                 <div class="d-flex justify-content-between mb-4 text-muted">
-                    <span>Livraison</span>
-                    <span style="color:#1A1A1A; font-weight:600;">Gratuit</span>
+                    <span>Shipping</span>
+                    <span style="color:#1A1A1A; font-weight:600;">free</span>
                 </div>
 
                 <div style="border-top:1px solid #E5E0D8; padding: 25px 0; margin-bottom:10px;">
@@ -115,16 +115,16 @@ function formatPrice($price) { return number_format($price, 2, ',', ' ') . ' DT'
                 </div>
 
                 <?php if ($user): ?>
-                    <a href="../Produits/checkout.php" class="btn-checkout">Valider la commande</a>
+                    <a href="../Produits/checkout.php" class="btn-checkout">Place Order</a>
                 <?php else: ?>
                     
-                    <button onclick="showAuthMessage()" class="btn-checkout w-100 border-0">Payer maintenant</button>
+                    <button onclick="showAuthMessage()" class="btn-checkout w-100 border-0">Place Order</button>
                 <?php endif; ?>
 
                 <div class="mt-4" style="font-size: 12px; color: #888; line-height: 2;">
-                    <p>✓ Paiement crypté SSL</p>
-                    <p>✓ Retours gratuits sous 30 jours</p>
-                    <p>✓ Livraison suivie par Aramex</p>
+                    <p>✓ Secure SSL Payment</p>
+                    <p>✓ Free Returns Within 2 Days</p>
+                    <p>✓ Tracked Delivery by Aramex</p>
                 </div>
             </div>
         </div>
