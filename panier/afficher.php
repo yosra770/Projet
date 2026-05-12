@@ -1,7 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once("../config/db.php");
-$connexion = new Connexion();
+$connexion = new \Connexion();
 $conn = $connexion->CNXbase();
 $panier = $_SESSION['panier'] ?? [];
 $user = $_SESSION['user'] ?? null;
@@ -17,11 +17,15 @@ if (!empty($panier)) {
         $produit = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$produit) continue;
         $qty = $item['qty'] ?? 1;
-        if ($qty > $produit['stock']) { $qty = $produit['stock']; $_SESSION['panier'][$index]['qty'] = $qty; }
+       if ($produit['stock'] <= 0) {
+    $qty = $qty; // ou laisser mais afficher indisponible
+}
         $subtotal = $produit['prix'] * $qty;
         $total += $subtotal;
         $cart_details[] = ['index' => $index, 'item' => $item, 'produit' => $produit, 'qty' => $qty, 'subtotal' => $subtotal];
-    }
+       }
+
+   
 }
 
 // Simulation produits recommandés
