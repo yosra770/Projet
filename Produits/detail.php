@@ -34,11 +34,30 @@ foreach($variantes as $v){
 
     $couleurs[$v['couleur']] = $v['stock'];
 }
+$variantesMap = [];
+
+foreach ($variantes as $v) {
+    $variantesMap[$v['taille']][$v['couleur']] = $v['stock'];
+}
 $favoris = $_SESSION['favoris'] ?? [];
 $isFav = isset($favoris[$produit['id']]);
 ?>
 
+
 <?php include("../includes/header.php"); ?>
+<?php if (isset($_SESSION['error'])): ?>
+    <div style="
+        background:#ffdddd;
+        color:#a00;
+        padding:12px;
+        margin:15px 0;
+        border-radius:8px;
+        text-align:center;
+    ">
+        <?= $_SESSION['error']; ?>
+    </div>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap');
@@ -184,3 +203,32 @@ foreach ($couleurs as $name => $stock):
 </div>
 
 <?php include("../includes/footer.php"); ?>
+
+<script>
+const variantes = <?= json_encode($variantesMap); ?>;
+
+document.querySelectorAll("input[name='taille']").forEach(el => {
+
+    el.addEventListener("change", function () {
+
+        let taille = this.value;
+
+        let colors = variantes[taille] || {};
+
+        document.querySelectorAll("input[name='couleur']").forEach(c => {
+
+            let label = document.querySelector(`label[for='${c.id}']`);
+
+            if (colors[c.value]) {
+                c.disabled = false;
+                label.style.opacity = "1";
+            } else {
+                c.disabled = true;
+                label.style.opacity = "0.3";
+            }
+        });
+
+    });
+
+});
+</script>

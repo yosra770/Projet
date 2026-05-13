@@ -15,6 +15,7 @@ if (empty($panier)) {
     exit;
 }
 
+
 $user = $_SESSION['user'] ?? null;
 ?>
 

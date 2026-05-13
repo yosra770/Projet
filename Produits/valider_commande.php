@@ -1,126 +1,89 @@
 <?php
 session_start();
-
 require_once("../config/db.php");
 
 $connexion = new Connexion();
 $conn = $connexion->CNXbase();
 
-// 🔥 DEBUG MODE (garde pour tester)
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 $panier = $_SESSION['panier'] ?? [];
 
-// ==========================
-// CHECK PANIER
-// ==========================
 if (empty($panier)) {
-    die("Cart is empty");
+    die("Panier vide");
 }
 
-// ==========================
-// CHECK USER
-// ==========================
-if (!isset($_SESSION['user']['id'])) {
-    die("You must be logged in");
-}
-
-$user_id = (int) $_SESSION['user']['id'];
-
-// ==========================
-// 1. INSERT ORDER
-// ==========================
-$stmt = $conn->prepare("
-    INSERT INTO commandes
-    (user_id, date_commande, status, total)
-    VALUES (?, NOW(), 'en attente', 0)
-");
-
-$stmt->execute([$user_id]);
-
-// 🔥 FIX ULTRA IMPORTANT
-$commande_id = $conn->lastInsertId();
-
-// fallback si lastInsertId bug
-if (!$commande_id) {
-    $commande_id = $conn->query("SELECT MAX(id) FROM commandes")->fetchColumn();
-}
-
-// ==========================
-// 2. LOOP PANIER
-// ==========================
 $total = 0;
 
+/* =========================
+   1. CALCUL TOTAL FIABLE
+========================= */
 foreach ($panier as $item) {
 
-    if (!isset($item['id'])) continue;
-
-    $stmt = $conn->prepare("SELECT * FROM produits WHERE id = ?");
-    $stmt->execute([(int)$item['id']]);
+    $stmt = $conn->prepare("SELECT prix FROM produits WHERE id = ?");
+    $stmt->execute([$item['id']]);
     $p = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$p) continue;
 
     $qty = (int)($item['qty'] ?? 1);
 
-    // STOCK CHECK
-    if ($qty > (int)$p['stock']) {
-        $qty = (int)$p['stock'];
-    }
+    $total += (float)$p['prix'] * $qty;
+}
 
-    if ($qty <= 0) continue;
+/* DEBUG (IMPORTANT TEMPORAIRE) */
+// echo $total; exit;
 
-    $subtotal = $p['prix'] * $qty;
-    $total += $subtotal;
+/* =========================
+   2. INSERT COMMANDE
+========================= */
+$stmt = $conn->prepare("
+INSERT INTO commandes 
+(user_id, date_commande, status, total)
+VALUES (?, NOW(), 'en attente', ?)
+");
 
-    $taille = $item['taille'] ?? '';
-    $couleur = $item['couleur'] ?? '';
+$user_id = $_SESSION['user']['id'] ?? 1;
 
-    // ==========================
-    // INSERT DETAILS
-    // ==========================
+$stmt->execute([$user_id, $total]);
+
+$order_id = $conn->lastInsertId();
+
+/* =========================
+   3. INSERT DETAILS
+========================= */
+foreach ($panier as $item) {
+
+    $stmt = $conn->prepare("SELECT prix FROM produits WHERE id = ?");
+    $stmt->execute([$item['id']]);
+    $p = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$p) continue;
+
+    $qty = (int)$item['qty'];
+
     $stmt = $conn->prepare("
-        INSERT INTO commande_details
-        (commande_id, produit_id, quantite, prix, subtotal, taille, couleur)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO commande_details 
+        (commande_id, produit_id, quantite, prix, taille, couleur)
+        VALUES (?, ?, ?, ?, ?, ?)
     ");
 
     $stmt->execute([
-        $commande_id,
-        $p['id'],
+        $order_id,
+        $item['id'],
         $qty,
         $p['prix'],
-        $subtotal,
-        $taille,
-        $couleur
+        $item['taille'],
+        $item['couleur']
     ]);
-
-    // UPDATE STOCK
-    $stmt = $conn->prepare("
-        UPDATE produits SET stock = stock - ? WHERE id = ?
-    ");
-
-    $stmt->execute([$qty, $p['id']]);
 }
 
-// ==========================
-// 3. UPDATE TOTAL
-// ==========================
-$stmt = $conn->prepare("
-    UPDATE commandes SET total = ? WHERE id = ?
-");
-
-$stmt->execute([$total, $commande_id]);
-
-// ==========================
-// 4. CLEAR CART
-// ==========================
+/* =========================
+   4. VIDE PANIER
+========================= */
 unset($_SESSION['panier']);
 
-// ==========================
-// 5. REDIRECT
-// ==========================
-header("Location: ../Produits/success.php?id=".$commande_id);
+/* =========================
+   5. REDIRECTION
+========================= */
+header("Location: success.php?id=" . $order_id);
 exit;
 ?>
-<?php include("../includes/footer.php"); ?>

@@ -231,9 +231,13 @@ if (isset($_POST['ajouter'])) {
                     </select>
                 </div>
                 <div>
-                    <span class="field-label">Style</span>
-                    <input type="text" name="style" placeholder="Ex: Sport" required>
-                </div>
+                    
+                        <span class="field-label">Style</span>
+    <select name="style" id="style" required>
+        <option value="" disabled selected>Choisir un style</option>
+    </select>
+</div>
+                
             </div>
             <h3 style="margin-top:25px;">Variantes</h3>
 
@@ -254,16 +258,33 @@ if (isset($_POST['ajouter'])) {
                     Choisir
                 </option>
 
-                <option value="36">36</option>
-                <option value="37">37</option>
-                <option value="38">38</option>
-                <option value="39">39</option>
-                <option value="40">40</option>
-                <option value="41">41</option>
-                <option value="42">42</option>
-                <option value="43">43</option>
-                <option value="44">44</option>
-                <option value="45">45</option>
+                <option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
 
             </select>
 
@@ -276,7 +297,7 @@ if (isset($_POST['ajouter'])) {
                 Couleur
             </span>
 
-            <select name="couleur[]">
+            <select name="couleur[]" onchange="updateColorRestrictions()">
 
                 <option value="">
                     Choisir
@@ -329,20 +350,74 @@ if (isset($_POST['ajouter'])) {
 <?php include("../../includes/footer.php"); ?>
 <script>
 
-document
-.getElementById("addVariant")
-.onclick = function() {
+function updateColorRestrictions() {
+
+    let selects = document.querySelectorAll("select[name='couleur[]']");
+
+    let used = [];
+
+    // 1. récupérer toutes les couleurs choisies
+    selects.forEach(sel => {
+        if (sel.value) {
+            used.push(sel.value);
+        }
+    });
+
+    // 2. activer/désactiver options
+    selects.forEach(sel => {
+
+        let current = sel.value;
+
+        Array.from(sel.options).forEach(opt => {
+
+            if (!opt.value) return;
+
+            if (used.includes(opt.value) && opt.value !== current) {
+                opt.disabled = true;
+            } else {
+                opt.disabled = false;
+            }
+        });
+    });
+}
+
+
+// IMPORTANT: déclencher quand on change une couleur
+document.addEventListener("change", function(e) {
+
+    if (e.target.name === "couleur[]") {
+        updateColorRestrictions();
+    }
+
+});
+
+
+// bouton ajouter variante
+document.getElementById("addVariant").onclick = function() {
 
     let html = `
 
     <div class="input-group variante">
 
         <div>
-
             <select name="taille[]">
-
                 <option value="">Pointure</option>
-
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
                 <option value="36">36</option>
                 <option value="37">37</option>
                 <option value="38">38</option>
@@ -353,17 +428,12 @@ document
                 <option value="43">43</option>
                 <option value="44">44</option>
                 <option value="45">45</option>
-
             </select>
-
         </div>
 
         <div>
-
             <select name="couleur[]">
-
                 <option value="">Couleur</option>
-
                 <option value="Noir">Noir</option>
                 <option value="Blanc">Blanc</option>
                 <option value="Rouge">Rouge</option>
@@ -374,28 +444,65 @@ document
                 <option value="Beige">Beige</option>
                 <option value="Marron">Marron</option>
                 <option value="Jaune">Jaune</option>
-
             </select>
-
         </div>
 
         <div>
-
-            <input type="number"
-                   name="stock_variante[]"
-                   placeholder="Stock">
-
+            <input type="number" name="stock_variante[]" placeholder="Stock">
         </div>
 
     </div>
-
     `;
 
-    document
-    .getElementById("variantes")
-    .insertAdjacentHTML("beforeend", html);
+    document.getElementById("variantes")
+        .insertAdjacentHTML("beforeend", html);
+
+    // IMPORTANT: réappliquer la règle après ajout
+    updateColorRestrictions();
 };
 
+</script>
+<script>
+const styles = {
+
+    men: [
+        "Running",
+        "Basketball",
+        "Lifestyle",
+        "Training"
+    ],
+
+    women: [
+        "Running",
+        "Fitness",
+        "Fashion"
+    ],
+
+    kids: [
+        "Running",
+        "Sport",
+        "Casual"
+    ]
+};
+
+document.querySelector("select[name='categorie']").addEventListener("change", function () {
+
+    let genre = this.value;
+    let styleSelect = document.getElementById("style");
+
+    styleSelect.innerHTML = "<option value='' disabled selected>Choisir un style</option>";
+
+    if (styles[genre]) {
+        styles[genre].forEach(style => {
+
+            let option = document.createElement("option");
+            option.value = style;
+            option.textContent = style;
+
+            styleSelect.appendChild(option);
+        });
+    }
+});
 </script>
 </body>
 </html>

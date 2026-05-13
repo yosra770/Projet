@@ -237,9 +237,13 @@ if(!empty($_FILES['image']['name'])){
                     </select>
                 </div>
                 <div>
-                    <span class="field-label">Style</span>
-                    <input type="text" name="style" value="<?= htmlspecialchars($prod['style']) ?>" required>
-                </div>
+    <span class="field-label">Style</span>
+    <select name="style" id="style" required>
+        <option value="<?= htmlspecialchars($prod['style']) ?>" selected>
+            <?= htmlspecialchars($prod['style']) ?>
+        </option>
+    </select>
+</div>
             </div>
             <h3 style="margin-top:25px;">
     Variantes
@@ -262,7 +266,7 @@ if(!empty($_FILES['image']['name'])){
 
             <option value="">Choisir</option>
 
-            <?php for($i=36; $i<=45; $i++): ?>
+            <?php for($i=20; $i<=45; $i++): ?>
 
                 <option value="<?= $i ?>"
                     <?= $v['taille']==$i ? 'selected' : '' ?>>
@@ -382,16 +386,33 @@ document
 
                 <option value="">Pointure</option>
 
-                <option value="36">36</option>
-                <option value="37">37</option>
-                <option value="38">38</option>
-                <option value="39">39</option>
-                <option value="40">40</option>
-                <option value="41">41</option>
-                <option value="42">42</option>
-                <option value="43">43</option>
-                <option value="44">44</option>
-                <option value="45">45</option>
+               <option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
 
             </select>
 
@@ -435,6 +456,64 @@ document
     .insertAdjacentHTML("beforeend", html);
 };
 
+</script>
+<script>
+const styles = {
+
+    men: [
+        "Running",
+        "Basketball",
+        "Lifestyle",
+        "Training"
+    ],
+
+    women: [
+        "Running",
+        "Fitness",
+        "Fashion"
+    ],
+
+    kids: [
+        "Running",
+        "Sport",
+        "Casual"
+    ]
+};
+
+function loadStyles(genre, selectedStyle = null) {
+
+    let styleSelect = document.getElementById("style");
+
+    styleSelect.innerHTML = "";
+
+    if (!genre || !styles[genre]) return;
+
+    styles[genre].forEach(style => {
+
+        let option = document.createElement("option");
+        option.value = style;
+        option.textContent = style;
+
+        if (style === selectedStyle) {
+            option.selected = true;
+        }
+
+        styleSelect.appendChild(option);
+    });
+}
+
+/* CHANGEMENT CATÉGORIE */
+document.querySelector("select[name='categorie']").addEventListener("change", function () {
+    loadStyles(this.value);
+});
+
+/* CHARGEMENT INITIAL (EDIT MODE) */
+window.onload = function () {
+    let currentGenre = document.querySelector("select[name='categorie']").value;
+    let currentStyle = "<?= $prod['style'] ?>";
+
+    loadStyles(currentGenre, currentStyle);
+};
 </script>
 
 <?php include("../../includes/footer.php"); ?>

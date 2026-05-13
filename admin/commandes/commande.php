@@ -15,8 +15,13 @@ if(isset($_GET['id']) && isset($_GET['status'])) {
     $allowed = ['en attente', 'validée', 'annulée'];
 
     if(in_array($status, $allowed)) {
+
+    if ($status === 'validée') {
+        $c->validerEtDecrementStock($id);
+    } else {
         $c->updateStatus($id, $status);
     }
+}
 
     // ✅ 2. REDIRECTION (TRÈS IMPORTANT)
     header("Location: commande.php");

@@ -133,7 +133,69 @@ function countClients() {
     return $pdo->query($req)->fetch()['total'];
 }
   
+public function validerEtDecrementStock($commande_id)
+{
+    $cnx = new \Connexion();
+    $pdo = $cnx->CNXbase();
 
+    // 1. récupérer les produits commandés
+    $req = "
+        SELECT *
+        FROM commande_details
+        WHERE commande_id = ?
+    ";
+
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([$commande_id]);
+    $items = $stmt->fetchAll();
+
+    foreach ($items as $item) {
+
+        // 2. trouver la variante exacte
+        $req2 = "
+            SELECT id, stock
+            FROM produit_variantes
+            WHERE produit_id = ?
+            AND taille = ?
+            AND couleur = ?
+        ";
+
+        $stmt2 = $pdo->prepare($req2);
+        $stmt2->execute([
+            $item['produit_id'],
+            $item['taille'],
+            $item['couleur']
+        ]);
+
+        $var = $stmt2->fetch();
+
+        if ($var) {
+
+            // 3. calcul nouveau stock
+            $newStock = $var['stock'] - $item['quantite'];
+
+            if ($newStock < 0) {
+                $newStock = 0;
+            }
+
+            // 4. update stock
+            $req3 = "
+                UPDATE produit_variantes
+                SET stock = ?
+                WHERE id = ?
+            ";
+
+            $stmt3 = $pdo->prepare($req3);
+            $stmt3->execute([
+                $newStock,
+                $var['id']
+            ]);
+        }
+    }
+
+    // 5. update status commande
+    $this->updateStatus($commande_id, 'validée');
+}
     
 }
 ?>  

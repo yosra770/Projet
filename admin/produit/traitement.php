@@ -127,6 +127,8 @@ class produit
 
         $stmt->execute([$id]);
     }
+
+    
     function supprimerVariantes($produit_id)
 {
     require_once('../../config/db.php');
