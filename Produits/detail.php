@@ -7,8 +7,9 @@ $conn = $connexion->CNXbase();
 $id = (int)$_GET['id'];
 $stmt = $conn->prepare("SELECT * FROM produits WHERE id = ?");
 $stmt->execute([$id]);
+//fetch(PDO::FETCH_ASSOC) retourne un tableau associatif du produit ou false si non trouvé
 $produit = $stmt->fetch(PDO::FETCH_ASSOC);
-
+// Si le produit n'existe pas, on affiche une erreur
 if (!$produit) { die("Produit introuvable"); }
 
 // Logique tailles
@@ -29,17 +30,22 @@ $pointures = [];
 $couleurs = [];
 
 foreach($variantes as $v){
-
+    // On suppose que chaque variante a une taille et une couleur
     $pointures[$v['taille']] = $v['stock'];
 
     $couleurs[$v['couleur']] = $v['stock'];
 }
+
 $variantesMap = [];
 
 foreach ($variantes as $v) {
     $variantesMap[$v['taille']][$v['couleur']] = $v['stock'];
 }
+
+// Récupération des favoris de la session
+
 $favoris = $_SESSION['favoris'] ?? [];
+// Vérifie si le produit est dans les favoris
 $isFav = isset($favoris[$produit['id']]);
 ?>
 
@@ -127,6 +133,7 @@ $isFav = isset($favoris[$produit['id']]);
     <input
         type="radio"
         name="taille"
+        
         value="<?= $taille ?>"
         id="size-<?= $taille ?>"
         class="size-option"
@@ -135,6 +142,7 @@ $isFav = isset($favoris[$produit['id']]);
     >
 
     <label
+        
         for="size-<?= $taille ?>"
         class="size-label <?= $disabled ? 'size-disabled' : '' ?>"
     >

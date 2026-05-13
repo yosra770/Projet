@@ -119,10 +119,11 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="detail.php?id=<?= $p['id'] ?>" class="product-item">
                 <div class="img-container">
                     <!-- Assurez-vous que le chemin vers vos images est correct -->
-                    <img src="../assets/images/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['nom']) ?>">
+                    <img src="../uploads/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['nom']) ?>">
                 </div>
                 
                 <div class="product-meta">
+                    // Affichez la catégorie et le style pour plus de contexte
                     <span class="product-category"><?= htmlspecialchars($p['categorie']) ?> — <?= htmlspecialchars($p['style']) ?></span>
                     <div class="product-name"><?= htmlspecialchars($p['nom']) ?></div>
                     <div class="product-price"><?= number_format($p['prix'], 0) ?> DT</div>

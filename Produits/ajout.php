@@ -2,7 +2,7 @@
 
 <div class="container mt-5 mb-5">
     <h2 class="text-center">✨ Ajouter un nouveau produit</h2>
-
+    //enctype=multipart/form-data permet de télécharger des fichiers
     <form action="traitement_ajout.php" method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
         
         <div class="mb-3">

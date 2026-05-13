@@ -3,29 +3,33 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once("../config/db.php");
 $connexion = new Connexion();
 $conn = $connexion->CNXbase();
-
+//prend la categorie et le style(runningexpl) depuis le url
 $categorie = $_GET['cat'] ?? null;
 $style = $_GET['style'] ?? null;
 
 // Détermination du titre de la page
 $titre = "Notre Collection";
+// Si une catégorie est spécifiée, on l'ajoute au titre
+//ucfirst met la première lettre en majuscule
 if ($categorie) { $titre = ucfirst($categorie); }
 
 $query = "SELECT * FROM produits";
 $params = [];
 
 if ($categorie && $style) {
+    //.=Ajouter du texte à la variable.
     $query .= " WHERE categorie = ? AND style = ?";
     $params = [$categorie, $style];
 } elseif ($categorie) {
     $query .= " WHERE categorie = ?";
     $params = [$categorie];
 }
-
+// Préparation et exécution de la requête
 $stmt = $conn->prepare($query);
 $stmt->execute($params);
+// Récupération des produits dans un tableau associatif
 $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// Récupération des favoris de la session
 $favoris = $_SESSION['favoris'] ?? [];
 ?>
 
@@ -78,7 +82,7 @@ $favoris = $_SESSION['favoris'] ?? [];
                     <div class="card-body">
                         <div class="product-name"><?= htmlspecialchars($p['nom']) ?></div>
                         <div class="product-price"><?= number_format($p['prix'], 2, ',', ' ') ?> DT</div>
-                        <a href="detail.php?id=<?= $p['id'] ?>" class="btn-detail">Show Model</a>
+                        <a href="detail.php?id =<?= $p['id'] ?>" class="btn-detail">Show Model</a>
                     </div>
 
                 </div>

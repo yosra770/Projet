@@ -7,7 +7,7 @@
     <div class="content">
       <h1>Step Into Style</h1>
       <p>Sneakers premium collection</p>
-      <a href="#" class="btn-main">Shop Now</a>
+      <a href="produits/liste.php" class="btn-main">Shop Now</a>
     </div>
   </div>
 
@@ -16,7 +16,7 @@
     <div class="content">
       <h1>New Drops</h1>
       <p>Latest sneaker trends</p>
-      <a href="#" class="btn-main">Discover</a>
+      <a href="produits/liste.php" class="btn-main">Discover</a>
     </div>
   </div>
 
@@ -25,7 +25,7 @@
     <div class="content">
       <h1>Premium Quality</h1>
       <p>Only the best brands</p>
-      <a href="#" class="btn-main">Shop Now</a>
+      <a href="produits/liste.php" class="btn-main">Shop Now</a>
     </div>
   </div>
 

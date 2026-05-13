@@ -62,10 +62,18 @@ if (session_status() === PHP_SESSION_NONE) {
                 <input type="email" name="email" class="custom-input" placeholder="example@email.com" required>
             </div>
 
-            <div class="field-wrapper">
-                <label class="label-input">PASSWORD</label>
-                <input type="password" name="password" class="custom-input" placeholder="Password" required>
-            </div>
+           <div class="field-wrapper">
+    <label class="label-input">PASSWORD</label>
+
+    <div style="position:relative;">
+        <input type="password" name="password" id="password" class="custom-input" placeholder="Password" required>
+
+        <span onclick="togglePassword()" 
+              style="position:absolute; right:0; top:50%; transform:translateY(-50%); cursor:pointer; font-size:14px; color:#777;">
+            👁
+        </span>
+    </div>
+</div>
 
             <button type="submit" class="btn-submit">Login</button>
 
@@ -85,5 +93,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
     </div>
 </div>
+<script>
+function togglePassword() {
+    const input = document.getElementById("password");
 
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+</script>
 <?php include("../includes/footer.php"); ?>

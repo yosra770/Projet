@@ -4,7 +4,7 @@ require_once("../config/db.php");
 
 $connexion = new Connexion();
 $conn = $connexion->CNXbase();
-
+//??sinon tableau vide
 $panier = $_SESSION['panier'] ?? [];
 
 if (empty($panier)) {
@@ -15,6 +15,7 @@ if (empty($panier)) {
     exit;
 }
 
+//user connecté ou pas
 
 $user = $_SESSION['user'] ?? null;
 ?>

@@ -11,6 +11,7 @@ if (empty($panier)) {
     die("Panier vide");
 }
 
+
 $total = 0;
 
 /* =========================
@@ -20,8 +21,50 @@ foreach ($panier as $item) {
 
     $stmt = $conn->prepare("SELECT prix FROM produits WHERE id = ?");
     $stmt->execute([$item['id']]);
-    $p = $stmt->fetch(PDO::FETCH_ASSOC);
+// ==========================
+// CHECK USER
+// ==========================
+if (!isset($_SESSION['user']['id'])) {
+    die("You must be logged in");
+}
+//recupère l'id de l'utilisateur connecté
+$user_id = (int) $_SESSION['user']['id'];
 
+// ==========================
+// 1. INSERT ORDER
+// ==========================
+$stmt = $conn->prepare("
+    INSERT INTO commandes
+    (user_id, date_commande, status, total)
+    VALUES (?, NOW(), 'en attente', 0)
+");
+
+$stmt->execute([$user_id]);
+
+// Récupère l'ID de la commande créée
+$commande_id = $conn->lastInsertId();
+
+//  si lastInsertId bug
+if (!$commande_id) {
+    //récupère dernier ID de la table commandes
+    $commande_id = $conn->query("SELECT MAX(id) FROM commandes")->fetchColumn();
+}
+
+// ==========================
+// 2. LOOP PANIER
+// ==========================
+$total = 0;
+//parcourt chaque produit panier
+foreach ($panier as $item) {
+    //skip si ID absent.
+    if (!isset($item['id'])) continue;
+
+    $stmt = $conn->prepare("SELECT * FROM produits WHERE id = ?");
+    $stmt->execute([(int)$item['id']]);
+    //fetch(PDO::FETCH_ASSOC) retourne un tableau associatif du produit ou false si non trouvé
+
+    $p = $stmt->fetch(PDO::FETCH_ASSOC);
+    //ignore produit supprimé.
     if (!$p) continue;
 
     $qty = (int)($item['qty'] ?? 1);
